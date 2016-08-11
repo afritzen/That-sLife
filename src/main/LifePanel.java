@@ -1,6 +1,6 @@
 package main;
 
-import controller.TitleScreenController;
+import controller.LifeEngine;
 import controller.listeners.TitleScreenMouseListener;
 import view.TitleScreenView;
 
@@ -40,7 +40,7 @@ public class LifePanel extends JPanel implements Runnable {
     /**
      * Controller initializing the title screen.
      */
-    private TitleScreenController titleScreenController;
+    private LifeEngine lifeEngine;
     /**
      * First view in this panel, representing the title screen.
      */
@@ -55,7 +55,6 @@ public class LifePanel extends JPanel implements Runnable {
         setPreferredSize(new Dimension(WIDTH, HEIGHT));
         setFocusable(true);
         requestFocus();
-        addMouseListener(new TitleScreenMouseListener(this));
     }
 
     /**
@@ -81,18 +80,20 @@ public class LifePanel extends JPanel implements Runnable {
 
         long delta = 0;
 
+        // initialize components for first screen
+        titleScreenView = new TitleScreenView();
+        // TODO: set default controller(?)
+        lifeEngine = new LifeEngine(titleScreenView, null);
+        addMouseListener(new TitleScreenMouseListener(titleScreenView, lifeEngine));
+
         while (true) {
 
             long lastTime = System.nanoTime();
 
-            // paint screen black
-            graphics2D.setColor(Color.BLACK);
-            graphics2D.fillRect(0, 0, WIDTH, HEIGHT);
-
-            // initialize components for first screen
-            titleScreenView = new TitleScreenView();
-            titleScreenController = new TitleScreenController(titleScreenView);
-            titleScreenController.render(graphics2D);
+            lifeEngine.render(graphics2D);
+            if (lifeEngine.getCurrentController() != null) {
+                lifeEngine.update();
+            }
 
             graphics2D2.drawImage(titleScreen, 0, 0, null);
 
@@ -108,4 +109,5 @@ public class LifePanel extends JPanel implements Runnable {
         }
 
     }
+
 }

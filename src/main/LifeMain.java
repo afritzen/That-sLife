@@ -23,6 +23,8 @@ public class LifeMain extends JFrame {
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         window.setResizable(false);
         window.pack();
+        // make window appear in the middle of the screen
+        window.setLocationRelativeTo(null);
         window.setVisible(true);
     }
 

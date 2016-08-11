@@ -1,6 +1,8 @@
 package controller.listeners;
 
-import main.LifePanel;
+import controller.LifeEngine;
+import view.TitleScreenView;
+
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -9,17 +11,24 @@ import java.awt.event.MouseListener;
  */
 public class TitleScreenMouseListener implements MouseListener {
 
-    /**
-     * Panel containing the game's current components.
-     */
-    private LifePanel lifePanel;
+    private TitleScreenView titleScreenView;
+    private LifeEngine lifeEngine;
 
-    public TitleScreenMouseListener (LifePanel lifePanel) {
-        this.lifePanel = lifePanel;
+    public TitleScreenMouseListener (TitleScreenView titleScreenView, LifeEngine lifeEngine) {
+        this.titleScreenView = titleScreenView;
+        this.lifeEngine = lifeEngine;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
+        if (titleScreenView.getStartBtn().contains(e.getX(), e.getY())) {
+            System.out.println("game started!");
+        } else if (titleScreenView.getQuitBtn().contains(e.getX(), e.getY())) {
+            System.out.println("exit");
+            System.exit(0);
+        } else if (titleScreenView.getOptionsBtn().contains(e.getX(), e.getY())) {
+            System.out.println("options");
+        }
     }
 
     @Override
