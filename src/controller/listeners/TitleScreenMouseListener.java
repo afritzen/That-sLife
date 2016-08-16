@@ -1,6 +1,10 @@
 package controller.listeners;
 
 import controller.LifeEngine;
+import controller.MainGameController;
+import model.map.Map;
+import sun.applet.Main;
+import view.MainGameView;
 import view.TitleScreenView;
 
 import java.awt.event.MouseEvent;
@@ -10,6 +14,8 @@ import java.awt.event.MouseListener;
  * Manages all mouse-actions occurring on the title screen.
  */
 public class TitleScreenMouseListener implements MouseListener {
+
+    //TODO: make one listener for every view (with lists??)
 
     private TitleScreenView titleScreenView;
     private LifeEngine lifeEngine;
@@ -22,12 +28,14 @@ public class TitleScreenMouseListener implements MouseListener {
     @Override
     public void mouseClicked(MouseEvent e) {
         if (titleScreenView.getStartBtn().contains(e.getX(), e.getY())) {
-            System.out.println("game started!");
+            MainGameController mainGameController = new MainGameController();
+            MainGameView mainGameView = new MainGameView(mainGameController.getMap());
+            lifeEngine.setCurrentController(mainGameController);
+            lifeEngine.setCurrentView(mainGameView);
         } else if (titleScreenView.getQuitBtn().contains(e.getX(), e.getY())) {
-            System.out.println("exit");
             System.exit(0);
         } else if (titleScreenView.getOptionsBtn().contains(e.getX(), e.getY())) {
-            System.out.println("options");
+            //TODO
         }
     }
 

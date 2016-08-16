@@ -87,9 +87,6 @@ public class LifePanel extends JPanel implements Runnable {
         lifeEngine = new LifeEngine(titleScreenView, null);
         addMouseListener(new TitleScreenMouseListener(titleScreenView, lifeEngine));
 
-        Map map = new Map("src/model/map/default_map.txt");
-        map.printMap();
-
         while (true) {
 
             long lastTime = System.nanoTime();

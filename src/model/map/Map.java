@@ -6,7 +6,6 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 /**
  * Represents the game's map where the actual gameplay takes place.
@@ -66,7 +65,7 @@ public class Map {
                 String line = bufferedReader.readLine();
                 String[] tokens = line.split(DELIMITER);
                 for (int col = 0; col < mapHeight; col++) {
-                    map[row][col] = Integer.parseInt(tokens[row]);
+                    map[row][col] = Integer.parseInt(tokens[col]);
                 }
             }
 
