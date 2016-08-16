@@ -2,6 +2,7 @@ package main;
 
 import controller.LifeEngine;
 import controller.listeners.TitleScreenMouseListener;
+import model.map.Map;
 import view.TitleScreenView;
 
 import javax.swing.*;
@@ -85,6 +86,9 @@ public class LifePanel extends JPanel implements Runnable {
         // TODO: set default controller(?)
         lifeEngine = new LifeEngine(titleScreenView, null);
         addMouseListener(new TitleScreenMouseListener(titleScreenView, lifeEngine));
+
+        Map map = new Map("src/model/map/default_map.txt");
+        map.printMap();
 
         while (true) {
 

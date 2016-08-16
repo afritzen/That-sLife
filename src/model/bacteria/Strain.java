@@ -1,6 +1,7 @@
-package model;
+package model.bacteria;
 
 import model.util.Morphology;
+import model.util.StrainName;
 
 /**
  * Superclass for any bacteria strain that can be chosen in the game.
@@ -8,6 +9,14 @@ import model.util.Morphology;
  */
 public class Strain {
 
+    /**
+     * X-Position on the game's map.
+     */
+    private int xPos;
+    /**
+     * Y-Position on the game's map.
+     */
+    private int yPos;
     /**
      * Size of the strain's genome.
      */
@@ -35,7 +44,7 @@ public class Strain {
     /**
      * Name of the strain.
      */
-    private String name;
+    private StrainName strainName;
     /**
      * Appearance and outer form (e.g. round, rod-shaped ...)
      */
@@ -52,14 +61,36 @@ public class Strain {
 
     /**
      * Sets basic attributes according to morphology and name.
-     * @param name {@link #name}
-     * @param morphology appearance and type {@link #morphology}
+     * @param strainName {@link #strainName}
+     * @param morphology {@link #morphology}
      */
-    public Strain(String name, Morphology morphology) {
-        this.name = name;
+    public Strain(StrainName strainName, Morphology morphology, int xPos, int yPos) {
+        this.strainName = strainName;
         this.morphology = morphology;
+        this.xPos = xPos;
+        this.yPos = yPos;
 
         //TODO: compute attributes according to given values
+    }
+
+    public StrainName getStrainName() {
+        return strainName;
+    }
+
+    public int getxPos() {
+        return xPos;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public int getyPos() {
+        return yPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
     }
 
     public int getGenomeSize() {
