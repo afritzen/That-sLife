@@ -17,11 +17,11 @@ public class LifePanel extends JPanel implements Runnable {
     /**
      * Max height of the screen.
      */
-    public static final int HEIGHT = 600;
+    public static final int HEIGHT = 720;
     /**
      * Max width of the screen.
      */
-    public static final int WIDTH = 800;
+    public static final int WIDTH = 1280;
     /**
      * Main game thread.
      */

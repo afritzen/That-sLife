@@ -19,6 +19,10 @@ public class MainGameView implements View {
      * Map to be drawn. {@link Map}
      */
     private Map map;
+    /**
+     * Provides all images and sprites.
+     */
+    private SpriteFactory spriteFactory = new SpriteFactory();
 
     /**
      * Initialize map.
@@ -34,16 +38,15 @@ public class MainGameView implements View {
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(0, 0, LifePanel.WIDTH, LifePanel.HEIGHT);
 
-        for (int row = 0; row < map.getMapWidth(); row++) {
-            for (int col = 0; col < map.getMapHeight(); col++) {
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
 
                 int cellValue = map.getMap()[row][col];
                 if (cellValue == 0) {
-                    graphics2D.setColor(Color.BLACK);
+                    graphics2D.drawImage(spriteFactory.getFrameTileImg(), row*TILE_SIZE, col*TILE_SIZE, null);
                 } else if (cellValue == 1) {
-                    graphics2D.setColor(Color.CYAN);
+                    graphics2D.drawImage(spriteFactory.getBaseTileImg(), row*TILE_SIZE, col*TILE_SIZE, null);
                 }
-                graphics2D.fillRect(row*TILE_SIZE, col*TILE_SIZE, TILE_SIZE, TILE_SIZE);
             }
         }
     }

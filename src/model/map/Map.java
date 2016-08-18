@@ -58,13 +58,14 @@ public class Map {
             // set dimensions
             mapWidth = Integer.parseInt(bufferedReader.readLine());
             mapHeight = Integer.parseInt(bufferedReader.readLine());
-            map = new int[mapWidth][mapHeight];
+            map = new int[mapHeight][mapWidth];
 
             // read every line and tokens from file
-            for (int row = 0; row < mapWidth; row++) {
+            for (int row = 0; row < mapHeight; row++) {
                 String line = bufferedReader.readLine();
+                System.out.println(line);
                 String[] tokens = line.split(DELIMITER);
-                for (int col = 0; col < mapHeight; col++) {
+                for (int col = 0; col < mapWidth; col++) {
                     map[row][col] = Integer.parseInt(tokens[col]);
                 }
             }
@@ -85,8 +86,8 @@ public class Map {
             System.out.println("map empty");
             return;
         }
-        for (int i = 0; i < mapWidth; i++) {
-            for (int j = 0; j < mapHeight; j++) {
+        for (int i = 0; i < mapHeight; i++) {
+            for (int j = 0; j < mapWidth; j++) {
                 System.out.print(map[i][j]);
             }
             System.out.println();
