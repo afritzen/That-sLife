@@ -29,6 +29,10 @@ public class Map {
      */
     private int[][] map;
     /**
+     * The map as an array of tile objects.
+     */
+    private Tile[][] tilemap;
+    /**
      * All strains the player owns.
      */
     private ArrayList<Strain> playerStrains;
@@ -59,11 +63,11 @@ public class Map {
             mapWidth = Integer.parseInt(bufferedReader.readLine());
             mapHeight = Integer.parseInt(bufferedReader.readLine());
             map = new int[mapHeight][mapWidth];
+            tilemap = new Tile[mapHeight][mapWidth];
 
             // read every line and tokens from file
             for (int row = 0; row < mapHeight; row++) {
                 String line = bufferedReader.readLine();
-                System.out.println(line);
                 String[] tokens = line.split(DELIMITER);
                 for (int col = 0; col < mapWidth; col++) {
                     map[row][col] = Integer.parseInt(tokens[col]);
@@ -75,6 +79,7 @@ public class Map {
             ioe.printStackTrace();
         }
     }
+
 
     /**
      * Just for testing.

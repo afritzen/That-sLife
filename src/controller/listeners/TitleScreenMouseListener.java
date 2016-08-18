@@ -2,8 +2,7 @@ package controller.listeners;
 
 import controller.LifeEngine;
 import controller.MainGameController;
-import model.map.Map;
-import sun.applet.Main;
+import main.LifePanel;
 import view.MainGameView;
 import view.TitleScreenView;
 
@@ -15,23 +14,43 @@ import java.awt.event.MouseListener;
  */
 public class TitleScreenMouseListener implements MouseListener {
 
-    //TODO: make one listener for every view (with lists??)
-
+    /**
+     * {@link TitleScreenView}
+     */
     private TitleScreenView titleScreenView;
+    /**
+     * {@link LifeEngine}
+     */
     private LifeEngine lifeEngine;
+    /**
+     * {@link LifePanel}
+     */
+    private LifePanel lifePanel;
 
-    public TitleScreenMouseListener (TitleScreenView titleScreenView, LifeEngine lifeEngine) {
+    /**
+     * Initialize all components.
+     * @param titleScreenView
+     * @param lifeEngine
+     * @param lifePanel
+     */
+    public TitleScreenMouseListener (TitleScreenView titleScreenView, LifeEngine lifeEngine,
+                                     LifePanel lifePanel) {
         this.titleScreenView = titleScreenView;
         this.lifeEngine = lifeEngine;
+        this.lifePanel = lifePanel;
     }
 
     @Override
     public void mouseClicked(MouseEvent e) {
         if (titleScreenView.getStartBtn().contains(e.getX(), e.getY())) {
+
+            // start button clicked, initialize new view and controller for main game ...
             MainGameController mainGameController = new MainGameController();
             MainGameView mainGameView = new MainGameView(mainGameController.getMap());
             lifeEngine.setCurrentController(mainGameController);
             lifeEngine.setCurrentView(mainGameView);
+            lifePanel.addMouseListener(new MainGameMouseListener(mainGameView, lifeEngine, lifePanel));
+
         } else if (titleScreenView.getQuitBtn().contains(e.getX(), e.getY())) {
             System.exit(0);
         } else if (titleScreenView.getOptionsBtn().contains(e.getX(), e.getY())) {

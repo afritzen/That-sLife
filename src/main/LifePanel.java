@@ -2,7 +2,7 @@ package main;
 
 import controller.LifeEngine;
 import controller.listeners.TitleScreenMouseListener;
-import model.map.Map;
+import view.MainGameView;
 import view.TitleScreenView;
 
 import javax.swing.*;
@@ -85,7 +85,7 @@ public class LifePanel extends JPanel implements Runnable {
         titleScreenView = new TitleScreenView();
         // TODO: set default controller(?)
         lifeEngine = new LifeEngine(titleScreenView, null);
-        addMouseListener(new TitleScreenMouseListener(titleScreenView, lifeEngine));
+        addMouseListener(new TitleScreenMouseListener(titleScreenView, lifeEngine, this));
 
         while (true) {
 
