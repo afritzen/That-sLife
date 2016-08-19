@@ -1,6 +1,9 @@
 package model.map;
 
+import model.bacteria.Peptostreptococcus;
 import model.bacteria.Strain;
+import model.util.Morphology;
+import model.util.StrainName;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -56,6 +59,10 @@ public class Map {
 
         playerStrains = new ArrayList<>();
         otherStrains = new ArrayList<>();
+        Peptostreptococcus peptostreptococcus = new Peptostreptococcus(
+                StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 5, 5
+        );
+        playerStrains.add(peptostreptococcus);
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));

@@ -1,6 +1,7 @@
 package view;
 
 import main.LifePanel;
+import model.bacteria.Strain;
 import model.map.Map;
 import model.map.Tile;
 
@@ -58,6 +59,33 @@ public class MainGameView implements View {
                 }
             }
         }
+
+        // draw all strains
+        for (Strain strain : map.getPlayerStrains()) {
+            switch (strain.getStrainName()) {
+                case PEPTOSTREPTOCOCCUS:
+                    graphics2D.drawImage(spriteFactory.getPeptoImg(), strain.getxPos()*TILE_SIZE, strain.getyPos()*TILE_SIZE, null);
+                    break;
+                default:
+                    // do nothing
+                    break;
+            }
+        }
+
+        drawTimer(graphics2D);
+    }
+
+    /**
+     * Creates a timer to show up at the upper left corner of the screen.
+     * @param graphics2D graphics to be drawn
+     */
+    private void drawTimer(Graphics2D graphics2D) {
+        graphics2D.setFont(new Font("Arial", Font.PLAIN, 20));
+        graphics2D.setColor(Color.BLACK);
+        int seconds = (int)((System.currentTimeMillis()/1000)%60);
+        int minutes = (int) ((System.currentTimeMillis()/(1000*60))%60);
+        int hours   = (int) ((System.currentTimeMillis() / (1000*60*60)) % 24);
+        graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight()*TILE_SIZE+20, 30);
     }
 
     /**

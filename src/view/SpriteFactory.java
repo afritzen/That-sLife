@@ -18,6 +18,10 @@ public class SpriteFactory {
      * A tile for the outer frame of the game's map.
      */
     private BufferedImage frameTileImg = loadImage("/resources/tiles/frame_tile_big.png");
+    /**
+     * Image for the Peptostreptococcus strain.
+     */
+    private BufferedImage peptoImg = loadImage("/resources/bacteria/pepto_sprite.png");
 
     /**
      * Default constructor, not needed.
@@ -46,5 +50,9 @@ public class SpriteFactory {
 
     public BufferedImage getFrameTileImg() {
         return frameTileImg;
+    }
+
+    public BufferedImage getPeptoImg() {
+        return peptoImg;
     }
 }
