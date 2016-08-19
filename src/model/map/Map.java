@@ -1,5 +1,6 @@
 package model.map;
 
+import model.PowerUp;
 import model.bacteria.Peptostreptococcus;
 import model.bacteria.Strain;
 import model.util.Morphology;
@@ -43,6 +44,10 @@ public class Map {
      * All strains not owned by the player.
      */
     private ArrayList<Strain> otherStrains;
+    /**
+     * All carbohydrate-power-ups that are currently on the screen.
+     */
+    private ArrayList<PowerUp> powerUps;
 
     /**
      * Set up map.
@@ -59,6 +64,8 @@ public class Map {
 
         playerStrains = new ArrayList<>();
         otherStrains = new ArrayList<>();
+        powerUps = new ArrayList<>();
+
         Peptostreptococcus peptostreptococcus = new Peptostreptococcus(
                 StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 5, 5
         );
@@ -87,6 +94,35 @@ public class Map {
         }
     }
 
+    /**
+     * Determines whether a specific field has a power-up on it.
+     * @param xPos x-coordinate of the field
+     * @param yPos y-coordinate of the field
+     * @return field has powerup?
+     */
+    public boolean hasPowerUp(int xPos, int yPos) {
+        for (PowerUp powerUp : powerUps) {
+            if (powerUp.getxPos() == xPos || powerUp.getyPos() == yPos) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
+     * Returns the power-up at a specific place.
+     * @param xPos x-coordinate on the map
+     * @param yPos y-coordinate on the map
+     * @return the power-up
+     */
+    public PowerUp getPowerUpAt(int xPos, int yPos) {
+        for (PowerUp powerUp : powerUps) {
+            if (powerUp.getxPos() == xPos && powerUp.getyPos() == yPos) {
+                return powerUp;
+            }
+        }
+        return null;
+    }
 
     /**
      * Just for testing.
@@ -124,5 +160,9 @@ public class Map {
 
     public ArrayList<Strain> getOtherStrains() {
         return otherStrains;
+    }
+
+    public ArrayList<PowerUp> getPowerUps() {
+        return powerUps;
     }
 }

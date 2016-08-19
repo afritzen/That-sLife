@@ -1,6 +1,7 @@
 package view;
 
 import main.LifePanel;
+import model.PowerUp;
 import model.bacteria.Strain;
 import model.map.Map;
 import model.map.Tile;
@@ -72,6 +73,11 @@ public class MainGameView implements View {
             }
         }
 
+        // draw all power-ups
+        for (PowerUp powerUp : map.getPowerUps()) {
+            graphics2D.drawImage(spriteFactory.getCarbImg(), powerUp.getxPos()*TILE_SIZE+15, powerUp.getyPos()*TILE_SIZE+15, null);
+        }
+
         drawTimer(graphics2D);
     }
 
@@ -97,4 +103,5 @@ public class MainGameView implements View {
     public Tile getTileAt (int xPos, int yPos) {
         return tilemap[xPos][yPos];
     }
+
 }

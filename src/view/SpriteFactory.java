@@ -22,6 +22,10 @@ public class SpriteFactory {
      * Image for the Peptostreptococcus strain.
      */
     private BufferedImage peptoImg = loadImage("/resources/bacteria/pepto_sprite.png");
+    /**
+     * Image for a carbohydrate power-up.
+     */
+    private BufferedImage carbImg = loadImage("/resources/carb_sprite.png");
 
     /**
      * Default constructor, not needed.
@@ -54,5 +58,9 @@ public class SpriteFactory {
 
     public BufferedImage getPeptoImg() {
         return peptoImg;
+    }
+
+    public BufferedImage getCarbImg() {
+        return carbImg;
     }
 }
