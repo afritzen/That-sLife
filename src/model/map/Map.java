@@ -1,5 +1,6 @@
 package model.map;
 
+import model.Host;
 import model.PowerUp;
 import model.bacteria.Peptostreptococcus;
 import model.bacteria.Strain;
@@ -48,6 +49,10 @@ public class Map {
      * All carbohydrate-power-ups that are currently on the screen.
      */
     private ArrayList<PowerUp> powerUps;
+    /**
+     * Host in the game.
+     */
+    private Host host;
 
     /**
      * Set up map.
@@ -65,6 +70,7 @@ public class Map {
         playerStrains = new ArrayList<>();
         otherStrains = new ArrayList<>();
         powerUps = new ArrayList<>();
+        host = new Host();
 
         Peptostreptococcus peptostreptococcus = new Peptostreptococcus(
                 StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 5, 5
@@ -164,5 +170,9 @@ public class Map {
 
     public ArrayList<PowerUp> getPowerUps() {
         return powerUps;
+    }
+
+    public Host getHost() {
+        return host;
     }
 }

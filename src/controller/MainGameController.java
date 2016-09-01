@@ -5,6 +5,7 @@ import model.map.Map;
 import view.MainGameView;
 
 import java.util.Iterator;
+import java.util.Random;
 
 public class MainGameController implements Controller{
 
@@ -16,6 +17,10 @@ public class MainGameController implements Controller{
      * Current game view. {@link MainGameView}
      */
     private MainGameView mainGameView;
+    /**
+     * Needed for random power-up generation.
+     */
+    private Random random = new Random();
 
     /**
      * Sets up model and view.
@@ -43,19 +48,19 @@ public class MainGameController implements Controller{
      * enemies and the environment.
      */
     private void updateMap() {
+
+        int seconds = (int)(System.currentTimeMillis() / 1000 % 60);
+
         if (map == null) {
             return;
         }
 
         updatePowerUps();
 
-        // create power-ups
-        int seconds = (int)(System.currentTimeMillis()/1000%60);
-        if (seconds%11 == 0) {
-            PowerUp powerUp = new PowerUp("Carbohydrate", 7, 7);
+        if (seconds % 11 == 0) {
+            PowerUp powerUp = new PowerUp("Carbohydrate", 5, 5);
             map.getPowerUps().add(powerUp);
         }
-
     }
 
     /**

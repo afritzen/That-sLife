@@ -79,6 +79,7 @@ public class MainGameView implements View {
         }
 
         drawTimer(graphics2D);
+        drawHUD(graphics2D);
     }
 
     /**
@@ -92,6 +93,10 @@ public class MainGameView implements View {
         int minutes = (int) ((System.currentTimeMillis()/(1000*60))%60);
         int hours   = (int) ((System.currentTimeMillis() / (1000*60*60)) % 24);
         graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight()*TILE_SIZE+20, 30);
+    }
+
+    private void drawHUD (Graphics2D graphics2D) {
+        graphics2D.drawString("Host health: " + map.getHost().getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
     }
 
     /**
