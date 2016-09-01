@@ -2,11 +2,16 @@ package controller;
 
 import model.PowerUp;
 import model.map.Map;
+import model.util.PowerUpType;
 import view.MainGameView;
 
 import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
+
+import static model.util.PowerUpType.FATTY_ACID;
+import static model.util.PowerUpType.ORGANIC_ACID;
+import static model.util.PowerUpType.VITAMIN;
 
 public class MainGameController implements Controller{
 
@@ -78,18 +83,23 @@ public class MainGameController implements Controller{
     }
 
     /**
-     * Randomly spawns a power-up on the map.
+     * Randomly spawns a power-up on the map. The different types also have different
+     * chances of appearing. Vitamins are the most common type while organic acids can
+     * be very rare.
      */
     private void spawnPowerUps() {
 
         double rnd = Math.random();
         random = new Random();
+        int rndX = random.nextInt((map.getMapWidth() - 2) + 1) + 2;
+        int rndY = random.nextInt((map.getMapHeight() - 2) + 1) + 2;
 
-        // 1/1000 chance to get a power-up
         if (rnd < 0.001) {
-            int rndX = random.nextInt((map.getMapWidth() - 2) + 1) + 2;
-            int rndY = random.nextInt((map.getMapHeight() - 2) + 1) + 2;
-            map.getPowerUps().add(new PowerUp("Carbohydrate", rndX, rndY));
+            map.getPowerUps().add(new PowerUp(VITAMIN, rndX, rndY));
+        } else if (rnd < 0.0001) {
+            map.getPowerUps().add(new PowerUp(FATTY_ACID, rndX, rndY));
+        } else if (rnd < 0.00001) {
+            map.getPowerUps().add(new PowerUp(ORGANIC_ACID, rndX, rndY));
         }
     }
 

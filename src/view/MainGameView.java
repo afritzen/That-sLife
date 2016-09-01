@@ -1,6 +1,7 @@
 package view;
 
 import main.LifePanel;
+import model.Host;
 import model.PowerUp;
 import model.bacteria.Strain;
 import model.map.Map;
@@ -23,6 +24,10 @@ public class MainGameView implements View {
      */
     private Map map;
     /**
+     * Host whose info is displayed (e.g. in HUD).
+     */
+    private Host host;
+    /**
      * The map as an array of tile objects.
      */
     private Tile[][] tilemap;
@@ -41,6 +46,7 @@ public class MainGameView implements View {
      */
     public MainGameView (Map map) {
         this.map = map;
+        this.host = map.getHost();
     }
 
     @Override
@@ -100,8 +106,12 @@ public class MainGameView implements View {
     }
 
     private void drawHUD (Graphics2D graphics2D) {
-        graphics2D.drawString("Host health: " + map.getHost().getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
-        graphics2D.drawString(infoText, map.getMapHeight() * TILE_SIZE + 20, 110);
+
+        graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
+        graphics2D.drawString("Nutrition Level: " + host.getNutritionLevel(), map.getMapHeight() * TILE_SIZE + 20, 110);
+        graphics2D.drawString("Gut activity: " + host.getGutActivity(), map.getMapHeight() * TILE_SIZE + 20, 150);
+        graphics2D.drawString("Mineral household: " + host.getMineralHousehold(), map.getMapHeight() * TILE_SIZE + 20, 190);
+        graphics2D.drawString(infoText, map.getMapHeight() * TILE_SIZE + 20, 230);
     }
 
     /**

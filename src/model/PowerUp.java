@@ -1,5 +1,7 @@
 package model;
 
+import model.util.PowerUpType;
+
 /**
  * Models a power-up in the game which can be used to improve the
  * host's health or change/set attributes of the player's strain.
@@ -14,7 +16,7 @@ public class PowerUp {
     /**
      * Type of the power-up (e.g. carbohydrate).
      */
-    private String type;
+    private PowerUpType type;
     /**
      * X-coordinate on the map.
      */
@@ -35,16 +37,28 @@ public class PowerUp {
 
     /**
      * Sets attributes according to type.
+     *
      * @param type {@link #type}
      * @param xPos {@link #xPos}
      * @param yPos {@link #yPos}
      */
-    public PowerUp(String type, int xPos, int yPos) {
+    public PowerUp(PowerUpType type, int xPos, int yPos) {
+
         this.xPos = xPos;
         this.yPos = yPos;
+        this.type = type;
+
         switch (type) {
-            case "Carbohydrate":
+            case FATTY_ACID:
                 power = 10;
+                counter = 0;
+                break;
+            case ORGANIC_ACID:
+                power = 5;
+                counter = 0;
+                break;
+            case VITAMIN:
+                power = 15;
                 counter = 0;
                 break;
             default:
@@ -55,10 +69,10 @@ public class PowerUp {
     }
 
     public void increaseCounter() {
-        counter+= 1;
+        counter += 1;
     }
 
-    public String getType() {
+    public PowerUpType getType() {
         return type;
     }
 
