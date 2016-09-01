@@ -18,6 +18,18 @@ public class Host {
         isDead = false;
     }
 
+    /**
+     * Restores the host's power with a power-up collected from the map.
+     * @param powerUp the collected power-up
+     */
+    public void givePowerUp(PowerUp powerUp) {
+        if (health >= 100) {
+            health = 100;
+        } else {
+            health += powerUp.getPower();
+        }
+    }
+
     public int getHealth() {
         return health;
     }

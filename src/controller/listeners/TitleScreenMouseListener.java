@@ -49,7 +49,8 @@ public class TitleScreenMouseListener implements MouseListener {
             MainGameView mainGameView = new MainGameView(mainGameController.getMap());
             lifeEngine.setCurrentController(mainGameController);
             lifeEngine.setCurrentView(mainGameView);
-            lifePanel.addMouseListener(new MainGameMouseListener(mainGameView, lifeEngine, lifePanel));
+            lifePanel.addMouseListener(new MainGameMouseListener(mainGameView, mainGameController.getMap(),
+                    lifeEngine, lifePanel));
 
         } else if (titleScreenView.getQuitBtn().contains(e.getX(), e.getY())) {
             System.exit(0);

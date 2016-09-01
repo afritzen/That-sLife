@@ -30,6 +30,10 @@ public class MainGameView implements View {
      * Provides all images and sprites.
      */
     private SpriteFactory spriteFactory = new SpriteFactory();
+    /**
+     * Small text showing information about collecting a power-up or critical host-condition.
+     */
+    private String infoText = "";
 
     /**
      * Initialize map.
@@ -97,6 +101,7 @@ public class MainGameView implements View {
 
     private void drawHUD (Graphics2D graphics2D) {
         graphics2D.drawString("Host health: " + map.getHost().getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
+        graphics2D.drawString(infoText, map.getMapHeight() * TILE_SIZE + 20, 110);
     }
 
     /**
@@ -109,4 +114,41 @@ public class MainGameView implements View {
         return tilemap[xPos][yPos];
     }
 
+    /**
+     * Returns the power-up at a specific place.
+     * @param xPos x-coordinate on the map
+     * @param yPos y-coordinate on the map
+     * @return the power-up
+     */
+    public PowerUp getPowerUpAt(int xPos, int yPos) {
+        for (PowerUp powerUp : map.getPowerUps()) {
+            if (powerUp.getxPos() == xPos && powerUp.getyPos() == yPos) {
+                return powerUp;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Determines whether a specific field has a power-up on it.
+     * @param xPos x-coordinate of the field
+     * @param yPos y-coordinate of the field
+     * @return field has power-up?
+     */
+    public boolean hasPowerUp(int xPos, int yPos) {
+        for (PowerUp powerUp : map.getPowerUps()) {
+            if ((powerUp.getxPos() == xPos) && (powerUp.getyPos() == yPos)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public String getInfoText() {
+        return infoText;
+    }
+
+    public void setInfoText(String infoText) {
+        this.infoText = infoText;
+    }
 }

@@ -100,35 +100,6 @@ public class Map {
         }
     }
 
-    /**
-     * Determines whether a specific field has a power-up on it.
-     * @param xPos x-coordinate of the field
-     * @param yPos y-coordinate of the field
-     * @return field has powerup?
-     */
-    public boolean hasPowerUp(int xPos, int yPos) {
-        for (PowerUp powerUp : powerUps) {
-            if (powerUp.getxPos() == xPos || powerUp.getyPos() == yPos) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    /**
-     * Returns the power-up at a specific place.
-     * @param xPos x-coordinate on the map
-     * @param yPos y-coordinate on the map
-     * @return the power-up
-     */
-    public PowerUp getPowerUpAt(int xPos, int yPos) {
-        for (PowerUp powerUp : powerUps) {
-            if (powerUp.getxPos() == xPos && powerUp.getyPos() == yPos) {
-                return powerUp;
-            }
-        }
-        return null;
-    }
 
     /**
      * Just for testing.

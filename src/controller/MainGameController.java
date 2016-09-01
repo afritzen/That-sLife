@@ -4,6 +4,7 @@ import model.PowerUp;
 import model.map.Map;
 import view.MainGameView;
 
+import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -49,18 +50,13 @@ public class MainGameController implements Controller{
      */
     private void updateMap() {
 
-        int seconds = (int)(System.currentTimeMillis() / 1000 % 60);
-
         if (map == null) {
             return;
         }
 
         updatePowerUps();
+        spawnPowerUps();
 
-        if (seconds % 11 == 0) {
-            PowerUp powerUp = new PowerUp("Carbohydrate", 5, 5);
-            map.getPowerUps().add(powerUp);
-        }
     }
 
     /**
@@ -78,6 +74,22 @@ public class MainGameController implements Controller{
             } else {
                 powerUp.increaseCounter();
             }
+        }
+    }
+
+    /**
+     * Randomly spawns a power-up on the map.
+     */
+    private void spawnPowerUps() {
+
+        double rnd = Math.random();
+        random = new Random();
+
+        // 1/1000 chance to get a power-up
+        if (rnd < 0.001) {
+            int rndX = random.nextInt((map.getMapWidth() - 2) + 1) + 2;
+            int rndY = random.nextInt((map.getMapHeight() - 2) + 1) + 2;
+            map.getPowerUps().add(new PowerUp("Carbohydrate", rndX, rndY));
         }
     }
 

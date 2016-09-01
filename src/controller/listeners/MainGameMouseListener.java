@@ -2,6 +2,8 @@ package controller.listeners;
 
 import controller.LifeEngine;
 import main.LifePanel;
+import model.PowerUp;
+import model.map.Map;
 import view.MainGameView;
 
 import java.awt.event.MouseEvent;
@@ -16,6 +18,7 @@ public class MainGameMouseListener implements MouseListener{
      * {@link MainGameView}
      */
     private MainGameView mainGameView;
+    private Map map;
     /**
      * {@link LifeEngine}
      */
@@ -31,8 +34,9 @@ public class MainGameMouseListener implements MouseListener{
      * @param lifeEngine
      * @param lifePanel
      */
-    public MainGameMouseListener(MainGameView mainGameView, LifeEngine lifeEngine,
+    public MainGameMouseListener(MainGameView mainGameView, Map map, LifeEngine lifeEngine,
                                  LifePanel lifePanel) {
+        this.map = map;
         this.mainGameView = mainGameView;
         this.lifeEngine = lifeEngine;
         this.lifePanel = lifePanel;
@@ -40,8 +44,18 @@ public class MainGameMouseListener implements MouseListener{
 
     @Override
     public void mouseClicked(MouseEvent e) {
-        //TODO: remove, just a test
-        System.out.println(mainGameView.getTileAt(e.getX()/mainGameView.TILE_SIZE, e.getY()/mainGameView.TILE_SIZE).getFieldType());
+
+        int row = e.getY() / MainGameView.TILE_SIZE;
+        int col = e.getX() / MainGameView.TILE_SIZE;
+
+        // collect power-up
+        if (mainGameView.hasPowerUp(col, row)) {
+            PowerUp collected = mainGameView.getPowerUpAt(col, row);
+            map.getHost().givePowerUp(collected);
+            map.getPowerUps().remove(collected);
+            mainGameView.setInfoText("Host gains " + collected.getPower() + " power!");
+        }
+
     }
 
     @Override
@@ -63,4 +77,5 @@ public class MainGameMouseListener implements MouseListener{
     public void mouseExited(MouseEvent e) {
 
     }
+
 }
