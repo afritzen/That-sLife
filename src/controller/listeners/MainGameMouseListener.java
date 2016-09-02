@@ -4,6 +4,7 @@ import controller.LifeEngine;
 import main.LifePanel;
 import model.PowerUp;
 import model.map.Map;
+import model.map.Tile;
 import view.MainGameView;
 
 import java.awt.event.MouseEvent;
@@ -48,6 +49,18 @@ public class MainGameMouseListener implements MouseListener{
         int row = e.getY() / MainGameView.TILE_SIZE;
         int col = e.getX() / MainGameView.TILE_SIZE;
 
+        Tile currentTile = mainGameView.getTileAt(col, row);
+        // select single tile
+        if (currentTile != null) {
+            if (!currentTile.isCurrentlySelected()) {
+                currentTile.setCurrentlySelected(true);
+            } else {
+                currentTile.setCurrentlySelected(false);
+            }
+        }
+
+
+
         // collect power-up
         if (mainGameView.hasPowerUp(col, row)) {
             PowerUp collected = mainGameView.getPowerUpAt(col, row);
@@ -55,6 +68,7 @@ public class MainGameMouseListener implements MouseListener{
             map.getPowerUps().remove(collected);
             mainGameView.setInfoText("Host gains " + collected.getPower() + " power!");
         }
+
 
     }
 

@@ -14,6 +14,7 @@ public class SpriteFactory {
      * A basic tile of the game's map.
      */
     private BufferedImage baseTileImg = loadImage("/resources/tiles/base_tile_big.png");
+    private BufferedImage baseTileSelectedImg = loadImage("/resources/tiles/base_tile_big_selected.png");
     /**
      * A tile for the outer frame of the game's map.
      */
@@ -50,6 +51,10 @@ public class SpriteFactory {
 
     public BufferedImage getBaseTileImg() {
         return baseTileImg;
+    }
+
+    public BufferedImage getBaseTileSelectedImg() {
+        return baseTileSelectedImg;
     }
 
     public BufferedImage getFrameTileImg() {

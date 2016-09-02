@@ -20,6 +20,10 @@ public class Tile {
      * Y-coordinate on the map.
      */
     private int yPos;
+    /**
+     * Determines whether the tile has been selected by the player.
+     */
+    private boolean currentlySelected;
 
     /**
      * Initializes position.
@@ -31,6 +35,7 @@ public class Tile {
         this.xPos = xPos;
         this.yPos = yPos;
         this.type = type;
+        currentlySelected = false;
         computeFieldType();
     }
 
@@ -71,5 +76,21 @@ public class Tile {
 
     public void setFieldType(FieldType fieldType) {
         this.fieldType = fieldType;
+    }
+
+    public boolean isCurrentlySelected() {
+        return currentlySelected;
+    }
+
+    public void setCurrentlySelected(boolean currentlySelected) {
+        this.currentlySelected = currentlySelected;
+    }
+
+    public void setxPos(int xPos) {
+        this.xPos = xPos;
+    }
+
+    public void setyPos(int yPos) {
+        this.yPos = yPos;
     }
 }

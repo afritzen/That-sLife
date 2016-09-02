@@ -47,26 +47,35 @@ public class MainGameView implements View {
     public MainGameView (Map map) {
         this.map = map;
         this.host = map.getHost();
+        initTilemap();
     }
 
     @Override
     public void render(Graphics2D graphics2D) {
+
         // clear screen
         graphics2D.setColor(Color.WHITE);
         graphics2D.fillRect(0, 0, LifePanel.WIDTH, LifePanel.HEIGHT);
 
-        tilemap = new Tile[map.getMapHeight()][map.getMapWidth()];
+        //draw all tiles
         for (int row = 0; row < map.getMapHeight(); row++) {
             for (int col = 0; col < map.getMapWidth(); col++) {
 
-                int cellValue = map.getMap()[row][col];
-                // new cell in tile map
-                tilemap[row][col] = new Tile(row, col, cellValue);
-                // draw images accordingly
-                if (cellValue == 0) {
-                    graphics2D.drawImage(spriteFactory.getFrameTileImg(), row*TILE_SIZE, col*TILE_SIZE, null);
-                } else if (cellValue == 1) {
-                    graphics2D.drawImage(spriteFactory.getBaseTileImg(), row*TILE_SIZE, col*TILE_SIZE, null);
+                Tile currentTile = tilemap[row][col];
+                switch (currentTile.getType()) {
+                    case 0:
+                        graphics2D.drawImage(spriteFactory.getFrameTileImg(), currentTile.getxPos() * TILE_SIZE,
+                                currentTile.getyPos() * TILE_SIZE, null);
+                        break;
+                    case 1:
+                        if (currentTile.isCurrentlySelected()) {
+                            graphics2D.drawImage(spriteFactory.getBaseTileSelectedImg(), currentTile.getxPos() * TILE_SIZE,
+                                    currentTile.getyPos() * TILE_SIZE, null);
+                        } else {
+                            graphics2D.drawImage(spriteFactory.getBaseTileImg(), currentTile.getxPos() * TILE_SIZE,
+                                    currentTile.getyPos() * TILE_SIZE, null);
+                        }
+                        break;
                 }
             }
         }
@@ -90,6 +99,18 @@ public class MainGameView implements View {
 
         drawTimer(graphics2D);
         drawHUD(graphics2D);
+    }
+
+    private void initTilemap() {
+
+        tilemap = new Tile[map.getMapHeight()][map.getMapWidth()];
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
+
+                int cellValue = map.getMap()[row][col];
+                tilemap[row][col] = new Tile(row, col, cellValue);
+            }
+        }
     }
 
     /**
@@ -160,5 +181,13 @@ public class MainGameView implements View {
 
     public void setInfoText(String infoText) {
         this.infoText = infoText;
+    }
+
+    public Tile[][] getTilemap() {
+        return tilemap;
+    }
+
+    public Map getMap() {
+        return map;
     }
 }
