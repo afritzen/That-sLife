@@ -9,16 +9,30 @@ import java.io.IOException;
  */
 public class SpriteFactory {
 
-
     /**
      * A basic tile of the game's map.
      */
     private BufferedImage baseTileImg = loadImage("/resources/tiles/base_tile_big.png");
-    private BufferedImage baseTileSelectedImg = loadImage("/resources/tiles/base_tile_big_selected.png");
     /**
      * A tile for the outer frame of the game's map.
      */
     private BufferedImage frameTileImg = loadImage("/resources/tiles/frame_tile_big.png");
+    /**
+     * Colony with low density.
+     */
+    private BufferedImage colonyLowImg = loadImage("/resources/tiles/colony_tile_low.png");
+    /**
+     * Colony with medium density.
+     */
+    private BufferedImage colonyMediumImg = loadImage("/resources/tiles/colony_tile_medium.png");
+    /**
+     * Colony with high density.
+     */
+    private BufferedImage colonyHighImg = loadImage("/resources/tiles/colony_tile_high.png");
+    /**
+     * Highlights a currently selected field.
+     */
+    private BufferedImage slectionImg = loadImage("/resources/tiles/tile_selection.png");
     /**
      * Image for the Peptostreptococcus strain.
      */
@@ -53,12 +67,24 @@ public class SpriteFactory {
         return baseTileImg;
     }
 
-    public BufferedImage getBaseTileSelectedImg() {
-        return baseTileSelectedImg;
-    }
-
     public BufferedImage getFrameTileImg() {
         return frameTileImg;
+    }
+
+    public BufferedImage getColonyLowImg() {
+        return colonyLowImg;
+    }
+
+    public BufferedImage getColonyMediumImg() {
+        return colonyMediumImg;
+    }
+
+    public BufferedImage getColonyHighImg() {
+        return colonyHighImg;
+    }
+
+    public BufferedImage getSlectionImg() {
+        return slectionImg;
     }
 
     public BufferedImage getPeptoImg() {

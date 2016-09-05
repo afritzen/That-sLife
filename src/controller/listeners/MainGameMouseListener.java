@@ -5,6 +5,7 @@ import main.LifePanel;
 import model.PowerUp;
 import model.map.Map;
 import model.map.Tile;
+import model.util.FieldType;
 import view.MainGameView;
 
 import java.awt.event.MouseEvent;
@@ -51,8 +52,12 @@ public class MainGameMouseListener implements MouseListener{
 
         Tile currentTile = mainGameView.getTileAt(col, row);
         // select single tile
-        if (currentTile != null) {
-            if (!currentTile.isCurrentlySelected()) {
+        if (currentTile != null && (currentTile.getFieldType() != FieldType.FRAME)) {
+            if (mainGameView.alreadySelected()) {
+                mainGameView.getCurrentlySelected().setCurrentlySelected(false);
+            }
+
+            if (!currentTile.isCurrentlySelected() && (currentTile.getFieldType() != FieldType.FRAME)) {
                 currentTile.setCurrentlySelected(true);
             } else {
                 currentTile.setCurrentlySelected(false);

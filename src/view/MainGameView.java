@@ -1,6 +1,7 @@
 package view;
 
 import main.LifePanel;
+import model.Colony;
 import model.Host;
 import model.PowerUp;
 import model.bacteria.Strain;
@@ -62,20 +63,23 @@ public class MainGameView implements View {
             for (int col = 0; col < map.getMapWidth(); col++) {
 
                 Tile currentTile = tilemap[row][col];
-                switch (currentTile.getType()) {
-                    case 0:
-                        graphics2D.drawImage(spriteFactory.getFrameTileImg(), currentTile.getxPos() * TILE_SIZE,
-                                currentTile.getyPos() * TILE_SIZE, null);
+                int currentTileX = currentTile.getxPos() * TILE_SIZE;
+                int currentTileY = currentTile.getyPos() * TILE_SIZE;
+
+                switch (currentTile.getFieldType()) {
+                    case FRAME:
+                        graphics2D.drawImage(spriteFactory.getFrameTileImg(), currentTileX, currentTileY, null);
                         break;
-                    case 1:
-                        if (currentTile.isCurrentlySelected()) {
-                            graphics2D.drawImage(spriteFactory.getBaseTileSelectedImg(), currentTile.getxPos() * TILE_SIZE,
-                                    currentTile.getyPos() * TILE_SIZE, null);
-                        } else {
-                            graphics2D.drawImage(spriteFactory.getBaseTileImg(), currentTile.getxPos() * TILE_SIZE,
-                                    currentTile.getyPos() * TILE_SIZE, null);
-                        }
+                    case NORMAL:
+                        graphics2D.drawImage(spriteFactory.getBaseTileImg(), currentTileX, currentTileY, null);
                         break;
+                    case COLONY:
+                        graphics2D.drawImage(spriteFactory.getColonyLowImg(), currentTileX, currentTileY, null);
+                        break;
+                }
+                // draws highlight if needed
+                if (currentTile.isCurrentlySelected()) {
+                    graphics2D.drawImage(spriteFactory.getSlectionImg(), currentTileX, currentTileY, null);
                 }
             }
         }
@@ -101,6 +105,9 @@ public class MainGameView implements View {
         drawHUD(graphics2D);
     }
 
+    /**
+     * Set up tilemap, create tiles and their attributes.
+     */
     private void initTilemap() {
 
         tilemap = new Tile[map.getMapHeight()][map.getMapWidth()];
@@ -109,6 +116,12 @@ public class MainGameView implements View {
 
                 int cellValue = map.getMap()[row][col];
                 tilemap[row][col] = new Tile(row, col, cellValue);
+
+                // create new preset colony for the player
+                if (cellValue == 2) {
+                    Colony colony = new Colony(map.getPlayerStrains().get(0).getStrainName(), row, col);
+                    map.getPlayerColonies().add(colony);
+                }
             }
         }
     }
@@ -126,6 +139,10 @@ public class MainGameView implements View {
         graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight()*TILE_SIZE+20, 30);
     }
 
+    /**
+     * Draws a basic HUD, to be improved later!
+     * @param graphics2D graphics to be drawn
+     */
     private void drawHUD (Graphics2D graphics2D) {
 
         graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
@@ -173,6 +190,32 @@ public class MainGameView implements View {
             }
         }
         return false;
+    }
+
+    /**
+     * Checks whether there is already a selected tile on the map.
+     * @return tile already selected?
+     */
+    public boolean alreadySelected() {
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
+                if (tilemap[row][col].isCurrentlySelected()) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    public Tile getCurrentlySelected() {
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
+                if (tilemap[row][col].isCurrentlySelected()) {
+                    return tilemap[row][col];
+                }
+            }
+        }
+        return null;
     }
 
     public String getInfoText() {

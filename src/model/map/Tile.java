@@ -48,9 +48,11 @@ public class Tile {
             case 0:
                 fieldType = FieldType.FRAME;
                 break;
-            default:
+            case 1:
                 fieldType = FieldType.NORMAL;
                 break;
+            case 2:
+                fieldType = FieldType.COLONY;
         }
     }
 

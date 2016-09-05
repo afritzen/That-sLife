@@ -5,6 +5,6 @@ package model.util;
  */
 public enum FieldType {
 
-    NORMAL, FRAME
+    NORMAL, FRAME, COLONY
 
 }

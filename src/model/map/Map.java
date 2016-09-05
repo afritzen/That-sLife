@@ -1,5 +1,6 @@
 package model.map;
 
+import model.Colony;
 import model.Host;
 import model.PowerUp;
 import model.bacteria.Peptostreptococcus;
@@ -42,9 +43,17 @@ public class Map {
      */
     private ArrayList<Strain> playerStrains;
     /**
+     * All colonies controlled by the player.
+     */
+    private ArrayList<Colony> playerColonies;
+    /**
      * All strains not owned by the player.
      */
     private ArrayList<Strain> otherStrains;
+    /**
+     * All colonies not owned by the player.
+     */
+    private ArrayList<Colony> otherColonies;
     /**
      * All carbohydrate-power-ups that are currently on the screen.
      */
@@ -69,6 +78,8 @@ public class Map {
 
         playerStrains = new ArrayList<>();
         otherStrains = new ArrayList<>();
+        playerColonies = new ArrayList<>();
+        otherColonies = new ArrayList<>();
         powerUps = new ArrayList<>();
         host = new Host();
 
@@ -137,6 +148,14 @@ public class Map {
 
     public ArrayList<Strain> getOtherStrains() {
         return otherStrains;
+    }
+
+    public ArrayList<Colony> getPlayerColonies() {
+        return playerColonies;
+    }
+
+    public ArrayList<Colony> getOtherColonies() {
+        return otherColonies;
     }
 
     public ArrayList<PowerUp> getPowerUps() {
