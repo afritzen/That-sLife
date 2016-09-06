@@ -6,6 +6,7 @@ import main.LifePanel;
 import view.MainGameView;
 import view.TitleScreenView;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -45,15 +46,17 @@ public class TitleScreenMouseListener implements MouseListener {
         if (titleScreenView.getStartBtn().contains(e.getX(), e.getY())) {
 
             // start button clicked, initialize new view and controller for main game ...
+
             MainGameController mainGameController = new MainGameController();
             MainGameView mainGameView = new MainGameView(mainGameController.getMap());
             lifeEngine.setCurrentController(mainGameController);
             lifeEngine.setCurrentView(mainGameView);
             lifePanel.addMouseListener(new MainGameMouseListener(mainGameView, mainGameController.getMap(),
                     lifeEngine, lifePanel));
-
+            lifePanel.removeMouseListener(this);
+            lifePanel.clearScreen();
         } else if (titleScreenView.getQuitBtn().contains(e.getX(), e.getY())) {
-            System.exit(0);
+           System.exit(0);
         } else if (titleScreenView.getOptionsBtn().contains(e.getX(), e.getY())) {
             //TODO
         }
@@ -78,4 +81,5 @@ public class TitleScreenMouseListener implements MouseListener {
     public void mouseExited(MouseEvent e) {
 
     }
+
 }

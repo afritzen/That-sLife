@@ -39,9 +39,9 @@ public class Map {
      */
     private Tile[][] tilemap;
     /**
-     * All strains the player owns.
+     * Strain the player controls.
      */
-    private ArrayList<Strain> playerStrains;
+    private Strain playerStrain;
     /**
      * All colonies controlled by the player.
      */
@@ -76,7 +76,6 @@ public class Map {
      */
     private void initMap(String filename) {
 
-        playerStrains = new ArrayList<>();
         otherStrains = new ArrayList<>();
         playerColonies = new ArrayList<>();
         otherColonies = new ArrayList<>();
@@ -86,7 +85,8 @@ public class Map {
         Peptostreptococcus peptostreptococcus = new Peptostreptococcus(
                 StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 5, 5
         );
-        playerStrains.add(peptostreptococcus);
+
+        playerStrain = peptostreptococcus;
 
         try {
             BufferedReader bufferedReader = new BufferedReader(new FileReader(filename));
@@ -142,8 +142,12 @@ public class Map {
         return mapWidth;
     }
 
-    public ArrayList<Strain> getPlayerStrains() {
-        return playerStrains;
+    public Strain getPlayerStrain() {
+        return playerStrain;
+    }
+
+    public void setPlayerStrain(Strain playerStrain) {
+        this.playerStrain = playerStrain;
     }
 
     public ArrayList<Strain> getOtherStrains() {

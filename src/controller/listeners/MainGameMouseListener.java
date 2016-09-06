@@ -2,6 +2,7 @@ package controller.listeners;
 
 import controller.LifeEngine;
 import main.LifePanel;
+import model.Colony;
 import model.PowerUp;
 import model.map.Map;
 import model.map.Tile;
@@ -50,21 +51,34 @@ public class MainGameMouseListener implements MouseListener{
         int row = e.getY() / MainGameView.TILE_SIZE;
         int col = e.getX() / MainGameView.TILE_SIZE;
 
-        Tile currentTile = mainGameView.getTileAt(col, row);
-        // select single tile
-        if (currentTile != null && (currentTile.getFieldType() != FieldType.FRAME)) {
-            if (mainGameView.alreadySelected()) {
-                mainGameView.getCurrentlySelected().setCurrentlySelected(false);
+        if ((col < map.getMapHeight()) && (row < map.getMapWidth())) {
+            Tile currentTile = mainGameView.getTileAt(col, row);
+            // select single tile
+            if (currentTile != null && (currentTile.getFieldType() != FieldType.FRAME)) {
+                if (mainGameView.alreadySelected()) {
+                    mainGameView.getCurrentlySelected().setCurrentlySelected(false);
+                }
+
+                if (!currentTile.isCurrentlySelected() && (currentTile.getFieldType() != FieldType.FRAME)) {
+                    currentTile.setCurrentlySelected(true);
+                } else {
+                    currentTile.setCurrentlySelected(false);
+                }
             }
 
-            if (!currentTile.isCurrentlySelected() && (currentTile.getFieldType() != FieldType.FRAME)) {
-                currentTile.setCurrentlySelected(true);
-            } else {
-                currentTile.setCurrentlySelected(false);
-            }
         }
 
-
+        // create new colony
+        if (mainGameView.getStartColonyBtn().contains(e.getX(), e.getY())) {
+            if (!mainGameView.alreadySelected()) {
+                return;
+            }
+            // TODO: check resources!!
+            Colony colony = new Colony(map.getPlayerStrain().getStrainName(), mainGameView.getCurrentlySelected().getxPos(),
+                    mainGameView.getCurrentlySelected().getyPos());
+            map.getPlayerColonies().add(colony);
+            mainGameView.setInfoText("Created a new colony!");
+        }
 
         // collect power-up
         if (mainGameView.hasPowerUp(col, row)) {

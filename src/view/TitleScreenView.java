@@ -39,7 +39,9 @@ public class TitleScreenView implements View{
     /**
      * Not needed.
      */
-    public TitleScreenView () {}
+    public TitleScreenView () {
+
+    }
 
     /**
      * Renders all compoents and fills the screen with a background.

@@ -17,6 +17,10 @@ public class Colony {
      */
     private StrainName strainName;
     /**
+     * The growth status of the colony (0 = low, 1 = medium, 2 = high).
+     */
+    private int status;
+    /**
      * X-coordinate on the map.
      */
     private int xPos;
@@ -50,6 +54,7 @@ public class Colony {
     public Colony (StrainName strainName, int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
+        this.status = 0;
         this.strainName = strainName;
     }
 
@@ -73,8 +78,16 @@ public class Colony {
         return strainName;
     }
 
-    public void setStrain(StrainName strainName) {
+    public void setStrainName(StrainName strainName) {
         this.strainName = strainName;
+    }
+
+    public int getStatus() {
+        return status;
+    }
+
+    public void setStatus(int status) {
+        this.status = status;
     }
 
     public boolean hasBiofilm() {

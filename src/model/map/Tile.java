@@ -51,9 +51,7 @@ public class Tile {
             case 1:
                 fieldType = FieldType.NORMAL;
                 break;
-            case 2:
-                fieldType = FieldType.COLONY;
-        }
+           }
     }
 
     public int getType() {

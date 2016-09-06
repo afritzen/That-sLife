@@ -9,6 +9,7 @@ import model.map.Map;
 import model.map.Tile;
 
 import java.awt.*;
+import java.awt.geom.RoundRectangle2D;
 
 /**
  * Renders the game's map and everything inside it. Also provides
@@ -40,6 +41,7 @@ public class MainGameView implements View {
      * Small text showing information about collecting a power-up or critical host-condition.
      */
     private String infoText = "";
+    private RoundRectangle2D.Double startColonyBtn = new RoundRectangle2D.Double();
 
     /**
      * Initialize map.
@@ -73,36 +75,52 @@ public class MainGameView implements View {
                     case NORMAL:
                         graphics2D.drawImage(spriteFactory.getBaseTileImg(), currentTileX, currentTileY, null);
                         break;
-                    case COLONY:
-                        graphics2D.drawImage(spriteFactory.getColonyLowImg(), currentTileX, currentTileY, null);
-                        break;
-                }
-                // draws highlight if needed
-                if (currentTile.isCurrentlySelected()) {
-                    graphics2D.drawImage(spriteFactory.getSlectionImg(), currentTileX, currentTileY, null);
-                }
+                   }
+
             }
         }
 
-        // draw all strains
-        for (Strain strain : map.getPlayerStrains()) {
-            switch (strain.getStrainName()) {
-                case PEPTOSTREPTOCOCCUS:
-                    graphics2D.drawImage(spriteFactory.getPeptoImg(), strain.getxPos()*TILE_SIZE, strain.getyPos()*TILE_SIZE, null);
+        // draw player strain
+        Strain playerStrain = map.getPlayerStrain();
+        switch (playerStrain.getStrainName()) {
+            case PEPTOSTREPTOCOCCUS:
+                graphics2D.drawImage(spriteFactory.getPeptoImg(), playerStrain.getxPos()*TILE_SIZE, playerStrain.getyPos()*TILE_SIZE, null);
+                break;
+            default:
+                // do nothing
+                break;
+        }
+
+        // draw player colonies
+        for (Colony colony : map.getPlayerColonies()) {
+            switch (colony.getStatus()) {
+                case 0:
+                    graphics2D.drawImage(spriteFactory.getColonyLowImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
                     break;
-                default:
-                    // do nothing
+                case 1:
+                    graphics2D.drawImage(spriteFactory.getColonyMediumImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
+                    break;
+                case 2:
+                    graphics2D.drawImage(spriteFactory.getColonyHighImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
                     break;
             }
         }
 
         // draw all power-ups
         for (PowerUp powerUp : map.getPowerUps()) {
-            graphics2D.drawImage(spriteFactory.getCarbImg(), powerUp.getxPos()*TILE_SIZE+15, powerUp.getyPos()*TILE_SIZE+15, null);
+            graphics2D.drawImage(spriteFactory.getCarbImg(), powerUp.getxPos()*TILE_SIZE + 15, powerUp.getyPos()*TILE_SIZE + 15, null);
         }
 
+        drawSelection(graphics2D);
         drawTimer(graphics2D);
         drawHUD(graphics2D);
+
+        // button just for testing, to be removed later!
+        graphics2D.setColor(Color.PINK);
+        startColonyBtn.setRoundRect(map.getMapHeight() * TILE_SIZE + 20, 250, 150, 50, 10, 10);
+        graphics2D.draw(startColonyBtn);
+        graphics2D.fill(startColonyBtn);
+
     }
 
     /**
@@ -119,8 +137,24 @@ public class MainGameView implements View {
 
                 // create new preset colony for the player
                 if (cellValue == 2) {
-                    Colony colony = new Colony(map.getPlayerStrains().get(0).getStrainName(), row, col);
+                    Colony colony = new Colony(map.getPlayerStrain().getStrainName(), row, col);
                     map.getPlayerColonies().add(colony);
+                }
+            }
+        }
+    }
+
+    /**
+     * Draws a highlight around the currently selected field(s).
+     * @param graphics2D graphics to be drawn
+     */
+    private void drawSelection(Graphics2D graphics2D) {
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
+                Tile currentTile = tilemap[row][col];
+                if (currentTile.isCurrentlySelected()) {
+                    graphics2D.drawImage(spriteFactory.getSlectionImg(), currentTile.getxPos() * TILE_SIZE,
+                            currentTile.getyPos() * TILE_SIZE, null);
                 }
             }
         }
@@ -136,7 +170,7 @@ public class MainGameView implements View {
         int seconds = (int)((System.currentTimeMillis()/1000)%60);
         int minutes = (int) ((System.currentTimeMillis()/(1000*60))%60);
         int hours   = (int) ((System.currentTimeMillis() / (1000*60*60)) % 24);
-        graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight()*TILE_SIZE+20, 30);
+        graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight() * TILE_SIZE + 20, 30);
     }
 
     /**
@@ -178,6 +212,21 @@ public class MainGameView implements View {
     }
 
     /**
+     * Returns the colony at a specific point.
+     * @param xPos x-coordinate on the map
+     * @param yPos y-coordinate on the map
+     * @return the colony
+     */
+    public Colony getColonyAt (int xPos, int yPos) {
+        for (Colony colony : map.getPlayerColonies()) {
+            if (colony.getxPos() == xPos && colony.getyPos() == yPos) {
+                return colony;
+            }
+        }
+        return null;
+    }
+
+    /**
      * Determines whether a specific field has a power-up on it.
      * @param xPos x-coordinate of the field
      * @param yPos y-coordinate of the field
@@ -207,6 +256,10 @@ public class MainGameView implements View {
         return false;
     }
 
+    /**
+     * Returns the currently selected tile.
+     * @return see above
+     */
     public Tile getCurrentlySelected() {
         for (int row = 0; row < map.getMapHeight(); row++) {
             for (int col = 0; col < map.getMapWidth(); col++) {
@@ -216,6 +269,10 @@ public class MainGameView implements View {
             }
         }
         return null;
+    }
+
+    public RoundRectangle2D.Double getStartColonyBtn() {
+        return startColonyBtn;
     }
 
     public String getInfoText() {

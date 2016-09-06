@@ -46,6 +46,7 @@ public class LifePanel extends JPanel implements Runnable {
      * First view in this panel, representing the title screen.
      */
     private TitleScreenView titleScreenView;
+    private TitleScreenMouseListener titleScreenMouseListener;
 
     /**
      * Constructor, inherits from JPanel and initializes default
@@ -109,6 +110,11 @@ public class LifePanel extends JPanel implements Runnable {
             }
         }
 
+    }
+
+    public void clearScreen() {
+        Graphics graphics = getGraphics();
+        graphics.clearRect(0, 0, WIDTH, HEIGHT);
     }
 
 }
