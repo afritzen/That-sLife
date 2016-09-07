@@ -37,9 +37,14 @@ public class Colony {
      */
     private boolean conjugation;
     /**
+     * Determines whether the colony has imporved it's abitlity to
+     * absorb free DNA.
+     */
+    private boolean dnaCompetence;
+    /**
      * Indicates the competence of absorbing DNA from the environment.
      */
-    private int dnaCompetence;
+    private int dnaCompetenceValue;
     /**
      * All plasmids the colony has.
      */
@@ -56,6 +61,9 @@ public class Colony {
         this.yPos = yPos;
         this.status = 0;
         this.strainName = strainName;
+        biofilm = false;
+        dnaCompetence = false;
+        conjugation = false;
     }
 
     public int getxPos() {
@@ -106,11 +114,19 @@ public class Colony {
         this.conjugation = conjugation;
     }
 
-    public int getDnaCompetence() {
+    public int getDnaCompetenceValue() {
+        return dnaCompetenceValue;
+    }
+
+    public void setDnaCompetenceValue(int dnaCompetenceValue) {
+        this.dnaCompetenceValue = dnaCompetenceValue;
+    }
+
+    public boolean hasDnaCompetence() {
         return dnaCompetence;
     }
 
-    public void setDnaCompetence(int dnaCompetence) {
+    public void setDnaCompetence(boolean dnaCompetence) {
         this.dnaCompetence = dnaCompetence;
     }
 

@@ -9,6 +9,7 @@ import model.map.Tile;
 import model.util.FieldType;
 import view.MainGameView;
 
+import java.awt.*;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
@@ -50,6 +51,7 @@ public class MainGameMouseListener implements MouseListener{
 
         int row = e.getY() / MainGameView.TILE_SIZE;
         int col = e.getX() / MainGameView.TILE_SIZE;
+        int lifePoints = map.getHost().getLifePoints();
 
         if ((col < map.getMapHeight()) && (row < map.getMapWidth())) {
             Tile currentTile = mainGameView.getTileAt(col, row);
@@ -73,11 +75,20 @@ public class MainGameMouseListener implements MouseListener{
             if (!mainGameView.alreadySelected()) {
                 return;
             }
-            // TODO: check resources!!
-            Colony colony = new Colony(map.getPlayerStrain().getStrainName(), mainGameView.getCurrentlySelected().getxPos(),
-                    mainGameView.getCurrentlySelected().getyPos());
-            map.getPlayerColonies().add(colony);
-            mainGameView.setInfoText("Created a new colony!");
+
+            if (lifePoints >= 50) {
+                Colony colony = new Colony(map.getPlayerStrain().getStrainName(), mainGameView.getCurrentlySelected().getxPos(),
+                        mainGameView.getCurrentlySelected().getyPos());
+                map.getPlayerColonies().add(colony);
+                mainGameView.setInfoText("Created a new colony!");
+            } else {
+                mainGameView.setInfoText("Not enough life points!");
+            }
+        }
+
+        if (mainGameView.getBiofilmSkillBtnBW().contains(e.getX(), e.getY()) ||
+                mainGameView.getBiofilmSkillBtnCOL().contains(e.getX(), e.getY())) {
+           System.out.println("ADD THIS SKILL!");
         }
 
         // collect power-up
@@ -87,7 +98,6 @@ public class MainGameMouseListener implements MouseListener{
             map.getPowerUps().remove(collected);
             mainGameView.setInfoText("Host gains " + collected.getPower() + " power!");
         }
-
 
     }
 
@@ -103,7 +113,6 @@ public class MainGameMouseListener implements MouseListener{
 
     @Override
     public void mouseEntered(MouseEvent e) {
-
     }
 
     @Override

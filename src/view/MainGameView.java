@@ -22,6 +22,14 @@ public class MainGameView implements View {
      */
     public static final int TILE_SIZE = 60;
     /**
+     * Vertical space between the map and the HUD/buttons.
+     */
+    public final int xOffset;
+    /**
+     * Horizontal space between the map and skill trees/colony info.
+     */
+    public final int yOffset;
+    /**
      * Map to be drawn. {@link Map}
      */
     private Map map;
@@ -42,6 +50,12 @@ public class MainGameView implements View {
      */
     private String infoText = "";
     private RoundRectangle2D.Double startColonyBtn = new RoundRectangle2D.Double();
+    private LifeSkillButton biofilmSkillBtnBW;
+    private LifeSkillButton competenceSkillBtnBW;
+    private LifeSkillButton conjugationSkillBtnBW;
+    private LifeSkillButton biofilmSkillBtnCOL;
+    private LifeSkillButton competenceSkillBtnCOL;
+    private LifeSkillButton conjugationSkillBtnCOL;
 
     /**
      * Initialize map.
@@ -50,6 +64,17 @@ public class MainGameView implements View {
     public MainGameView (Map map) {
         this.map = map;
         this.host = map.getHost();
+        this.xOffset = map.getMapHeight() * TILE_SIZE + 20;
+        this. yOffset = map.getMapWidth() * TILE_SIZE + 20;
+
+        // initialize buttons
+        biofilmSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillBiofilmBwImg(), 100, yOffset);
+        competenceSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillCompetenceBwImg(), 140, yOffset);
+        conjugationSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillConjugationBwImg(), 180, yOffset);
+        biofilmSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillBiofilmColImg(), 100, yOffset);
+        competenceSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillCompetenceColImg(), 140, yOffset);
+        conjugationSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillConjugationColImg(), 180, yOffset);
+
         initTilemap();
     }
 
@@ -76,6 +101,10 @@ public class MainGameView implements View {
                         graphics2D.drawImage(spriteFactory.getBaseTileImg(), currentTileX, currentTileY, null);
                         break;
                    }
+
+                if (hasColony(row, col) && currentTile.isCurrentlySelected()) {
+                    drawColonyStats(getColonyAt(row, col), graphics2D);
+                }
 
             }
         }
@@ -144,6 +173,27 @@ public class MainGameView implements View {
         }
     }
 
+    private void drawColonyStats(Colony colony, Graphics2D graphics2D) {
+
+        if (colony.hasBiofilm()) {
+            biofilmSkillBtnCOL.draw(graphics2D);
+        } else {
+            biofilmSkillBtnBW.draw(graphics2D);
+        }
+
+        if (colony.hasDnaCompetence()) {
+            competenceSkillBtnCOL.draw(graphics2D);
+        } else {
+            competenceSkillBtnBW.draw(graphics2D);
+        }
+
+        if (colony.readyForConjugation()) {
+            conjugationSkillBtnCOL.draw(graphics2D);
+        } else {
+            conjugationSkillBtnBW.draw(graphics2D);
+        }
+    }
+
     /**
      * Draws a highlight around the currently selected field(s).
      * @param graphics2D graphics to be drawn
@@ -170,7 +220,7 @@ public class MainGameView implements View {
         int seconds = (int)((System.currentTimeMillis()/1000)%60);
         int minutes = (int) ((System.currentTimeMillis()/(1000*60))%60);
         int hours   = (int) ((System.currentTimeMillis() / (1000*60*60)) % 24);
-        graphics2D.drawString(hours + ":" + minutes + ":" + seconds, map.getMapHeight() * TILE_SIZE + 20, 30);
+        graphics2D.drawString(hours + ":" + minutes + ":" + seconds, xOffset, 30);
     }
 
     /**
@@ -180,10 +230,11 @@ public class MainGameView implements View {
     private void drawHUD (Graphics2D graphics2D) {
 
         graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
-        graphics2D.drawString("Nutrition Level: " + host.getNutritionLevel(), map.getMapHeight() * TILE_SIZE + 20, 110);
-        graphics2D.drawString("Gut activity: " + host.getGutActivity(), map.getMapHeight() * TILE_SIZE + 20, 150);
-        graphics2D.drawString("Mineral household: " + host.getMineralHousehold(), map.getMapHeight() * TILE_SIZE + 20, 190);
-        graphics2D.drawString(infoText, map.getMapHeight() * TILE_SIZE + 20, 230);
+        graphics2D.drawString("Nutrition Level: " + host.getNutritionLevel(), xOffset, 110);
+        graphics2D.drawString("Gut activity: " + host.getGutActivity(), xOffset, 150);
+        graphics2D.drawString("Mineral household: " + host.getMineralHousehold(), xOffset, 190);
+        graphics2D.drawString(infoText, xOffset, 230);
+
     }
 
     /**
@@ -242,6 +293,21 @@ public class MainGameView implements View {
     }
 
     /**
+     * Determines whether a specific field is inhabited by a colony.
+     * @param xPos x-coordinate of the field
+     * @param yPos y-coordinate of the field
+     * @return field has colony?
+     */
+    public boolean hasColony (int xPos, int yPos) {
+        for (Colony colony : map.getPlayerColonies()) {
+            if (colony.getxPos() == xPos && colony.getyPos() == yPos) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Checks whether there is already a selected tile on the map.
      * @return tile already selected?
      */
@@ -269,6 +335,30 @@ public class MainGameView implements View {
             }
         }
         return null;
+    }
+
+    public LifeSkillButton getBiofilmSkillBtnBW() {
+        return biofilmSkillBtnBW;
+    }
+
+    public LifeSkillButton getCompetenceSkillBtnBW() {
+        return competenceSkillBtnBW;
+    }
+
+    public LifeSkillButton getConjugationSkillBtnBW() {
+        return conjugationSkillBtnBW;
+    }
+
+    public LifeSkillButton getBiofilmSkillBtnCOL() {
+        return biofilmSkillBtnCOL;
+    }
+
+    public LifeSkillButton getCompetenceSkillBtnCOL() {
+        return competenceSkillBtnCOL;
+    }
+
+    public LifeSkillButton getConjugationSkillBtnCOL() {
+        return conjugationSkillBtnCOL;
     }
 
     public RoundRectangle2D.Double getStartColonyBtn() {

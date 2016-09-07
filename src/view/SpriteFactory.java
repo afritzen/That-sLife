@@ -41,6 +41,13 @@ public class SpriteFactory {
      * Image for a carbohydrate power-up.
      */
     private BufferedImage carbImg = loadImage("/resources/carb_sprite.png");
+    private BufferedImage skillBiofilmBwImg = loadImage("/resources/skills/skill_biofilm_bw.png");
+    private BufferedImage skillCompetenceBwImg = loadImage("/resources/skills/skill_competence_bw.png");
+    private BufferedImage skillConjugationBwImg = loadImage("/resources/skills/skill_conjugation_bw.png");
+    private BufferedImage skillBiofilmColImg = loadImage("/resources/skills/skill_biofilm.png");
+    private BufferedImage skillCompetenceColImg = loadImage("/resources/skills/skill_competence.png");
+    private BufferedImage skillConjugationColImg = loadImage("/resources/skills/skill_conjugation.png");
+
 
     /**
      * Default constructor, not needed.
@@ -93,5 +100,29 @@ public class SpriteFactory {
 
     public BufferedImage getCarbImg() {
         return carbImg;
+    }
+
+    public BufferedImage getSkillBiofilmBwImg() {
+        return skillBiofilmBwImg;
+    }
+
+    public BufferedImage getSkillCompetenceBwImg() {
+        return skillCompetenceBwImg;
+    }
+
+    public BufferedImage getSkillConjugationBwImg() {
+        return skillConjugationBwImg;
+    }
+
+    public BufferedImage getSkillBiofilmColImg() {
+        return skillBiofilmColImg;
+    }
+
+    public BufferedImage getSkillCompetenceColImg() {
+        return skillCompetenceColImg;
+    }
+
+    public BufferedImage getSkillConjugationColImg() {
+        return skillConjugationColImg;
     }
 }
