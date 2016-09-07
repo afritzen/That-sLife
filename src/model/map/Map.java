@@ -5,6 +5,7 @@ import model.Host;
 import model.PowerUp;
 import model.bacteria.Peptostreptococcus;
 import model.bacteria.Strain;
+import model.util.LifeConstants;
 import model.util.Morphology;
 import model.util.StrainName;
 
@@ -18,10 +19,6 @@ import java.util.ArrayList;
  */
 public class Map {
 
-    /**
-     * Separates the tokens read from the map's file.
-     */
-    public static final String DELIMITER = " ";
     /**
      * Width of the map.
      */
@@ -99,7 +96,7 @@ public class Map {
             // read every line and tokens from file
             for (int row = 0; row < mapHeight; row++) {
                 String line = bufferedReader.readLine();
-                String[] tokens = line.split(DELIMITER);
+                String[] tokens = line.split(LifeConstants.DELIMITER);
                 for (int col = 0; col < mapWidth; col++) {
                     map[row][col] = Integer.parseInt(tokens[col]);
                 }

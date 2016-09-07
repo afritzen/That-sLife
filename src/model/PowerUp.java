@@ -9,11 +9,6 @@ import model.util.PowerUpType;
 public class PowerUp {
 
     /**
-     * Maximum amount of time a power-up stays
-     * on the map.
-     */
-    public static final int COUNTER_MAX = 200;
-    /**
      * Type of the power-up (e.g. carbohydrate).
      */
     private PowerUpType type;

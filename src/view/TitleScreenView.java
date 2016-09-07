@@ -1,6 +1,7 @@
 package view;
 
 import main.LifePanel;
+import model.util.LifeConstants;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -10,9 +11,6 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class TitleScreenView implements View{
 
-    public static final int BUTTON_WIDTH = 150;
-    public static final int BUTTON_HEIGHT = 50;
-    public static final int ARC_SIZE = 10;
     /**
      * Button for starting the game.
      */
@@ -68,7 +66,7 @@ public class TitleScreenView implements View{
         graphics2D.setColor(Color.CYAN);
         for (int i = 0; i < buttons.length; i++) {
             buttons[i].setRoundRect(300, 150+100*(i+1),
-                    BUTTON_WIDTH, BUTTON_HEIGHT, ARC_SIZE, ARC_SIZE);
+                    LifeConstants.BUTTON_WIDTH, LifeConstants.BUTTON_HEIGHT, LifeConstants.ARC_SIZE, LifeConstants.ARC_SIZE);
             graphics2D.draw(buttons[i]);
             graphics2D.fill(buttons[i]);
         }

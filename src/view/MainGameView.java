@@ -7,6 +7,7 @@ import model.PowerUp;
 import model.bacteria.Strain;
 import model.map.Map;
 import model.map.Tile;
+import model.util.LifeConstants;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
@@ -17,10 +18,6 @@ import java.awt.geom.RoundRectangle2D;
  */
 public class MainGameView implements View {
 
-    /**
-     * Size of one cell.
-     */
-    public static final int TILE_SIZE = 60;
     /**
      * Vertical space between the map and the HUD/buttons.
      */
@@ -49,13 +46,12 @@ public class MainGameView implements View {
      * Small text showing information about collecting a power-up or critical host-condition.
      */
     private String infoText = "";
+    private Font HUDFont = new Font("Arial", Font.PLAIN, 20);
+    private Font skillTreeFont = new Font("Arial", Font.BOLD, 15);
     private RoundRectangle2D.Double startColonyBtn = new RoundRectangle2D.Double();
-    private LifeSkillButton biofilmSkillBtnBW;
-    private LifeSkillButton competenceSkillBtnBW;
-    private LifeSkillButton conjugationSkillBtnBW;
-    private LifeSkillButton biofilmSkillBtnCOL;
-    private LifeSkillButton competenceSkillBtnCOL;
-    private LifeSkillButton conjugationSkillBtnCOL;
+    private LifeSkillButton biofilmSkillBtn;
+    private LifeSkillButton competenceSkillBtn;
+    private LifeSkillButton conjugationSkillBtn;
 
     /**
      * Initialize map.
@@ -64,16 +60,13 @@ public class MainGameView implements View {
     public MainGameView (Map map) {
         this.map = map;
         this.host = map.getHost();
-        this.xOffset = map.getMapHeight() * TILE_SIZE + 20;
-        this. yOffset = map.getMapWidth() * TILE_SIZE + 20;
+        this.xOffset = map.getMapHeight() * LifeConstants.TILE_SIZE + 20;
+        this. yOffset = map.getMapWidth() * LifeConstants.TILE_SIZE + 20;
 
         // initialize buttons
-        biofilmSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillBiofilmBwImg(), 100, yOffset);
-        competenceSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillCompetenceBwImg(), 140, yOffset);
-        conjugationSkillBtnBW = new LifeSkillButton(spriteFactory.getSkillConjugationBwImg(), 180, yOffset);
-        biofilmSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillBiofilmColImg(), 100, yOffset);
-        competenceSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillCompetenceColImg(), 140, yOffset);
-        conjugationSkillBtnCOL = new LifeSkillButton(spriteFactory.getSkillConjugationColImg(), 180, yOffset);
+        biofilmSkillBtn = new LifeSkillButton(spriteFactory.getSkillBiofilmBwImg(), 100, yOffset);
+        competenceSkillBtn = new LifeSkillButton(spriteFactory.getSkillCompetenceBwImg(), 140, yOffset);
+        conjugationSkillBtn = new LifeSkillButton(spriteFactory.getSkillConjugationBwImg(), 180, yOffset);
 
         initTilemap();
     }
@@ -90,8 +83,8 @@ public class MainGameView implements View {
             for (int col = 0; col < map.getMapWidth(); col++) {
 
                 Tile currentTile = tilemap[row][col];
-                int currentTileX = currentTile.getxPos() * TILE_SIZE;
-                int currentTileY = currentTile.getyPos() * TILE_SIZE;
+                int currentTileX = currentTile.getxPos() * LifeConstants.TILE_SIZE;
+                int currentTileY = currentTile.getyPos() * LifeConstants.TILE_SIZE;
 
                 switch (currentTile.getFieldType()) {
                     case FRAME:
@@ -113,7 +106,8 @@ public class MainGameView implements View {
         Strain playerStrain = map.getPlayerStrain();
         switch (playerStrain.getStrainName()) {
             case PEPTOSTREPTOCOCCUS:
-                graphics2D.drawImage(spriteFactory.getPeptoImg(), playerStrain.getxPos()*TILE_SIZE, playerStrain.getyPos()*TILE_SIZE, null);
+                graphics2D.drawImage(spriteFactory.getPeptoImg(), playerStrain.getxPos()*LifeConstants.TILE_SIZE,
+                        playerStrain.getyPos()*LifeConstants.TILE_SIZE, null);
                 break;
             default:
                 // do nothing
@@ -124,20 +118,24 @@ public class MainGameView implements View {
         for (Colony colony : map.getPlayerColonies()) {
             switch (colony.getStatus()) {
                 case 0:
-                    graphics2D.drawImage(spriteFactory.getColonyLowImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
+                    graphics2D.drawImage(spriteFactory.getColonyLowImg(), colony.getxPos() * LifeConstants.TILE_SIZE,
+                            colony.getyPos() * LifeConstants.TILE_SIZE, null);
                     break;
                 case 1:
-                    graphics2D.drawImage(spriteFactory.getColonyMediumImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
+                    graphics2D.drawImage(spriteFactory.getColonyMediumImg(), colony.getxPos() * LifeConstants.TILE_SIZE,
+                            colony.getyPos() * LifeConstants.TILE_SIZE, null);
                     break;
                 case 2:
-                    graphics2D.drawImage(spriteFactory.getColonyHighImg(), colony.getxPos() * TILE_SIZE, colony.getyPos() * TILE_SIZE, null);
+                    graphics2D.drawImage(spriteFactory.getColonyHighImg(), colony.getxPos() * LifeConstants.TILE_SIZE,
+                            colony.getyPos() * LifeConstants.TILE_SIZE, null);
                     break;
             }
         }
 
         // draw all power-ups
         for (PowerUp powerUp : map.getPowerUps()) {
-            graphics2D.drawImage(spriteFactory.getCarbImg(), powerUp.getxPos()*TILE_SIZE + 15, powerUp.getyPos()*TILE_SIZE + 15, null);
+            graphics2D.drawImage(spriteFactory.getCarbImg(), powerUp.getxPos()*LifeConstants.TILE_SIZE + 15,
+                    powerUp.getyPos()*LifeConstants.TILE_SIZE + 15, null);
         }
 
         drawSelection(graphics2D);
@@ -146,7 +144,7 @@ public class MainGameView implements View {
 
         // button just for testing, to be removed later!
         graphics2D.setColor(Color.PINK);
-        startColonyBtn.setRoundRect(map.getMapHeight() * TILE_SIZE + 20, 250, 150, 50, 10, 10);
+        startColonyBtn.setRoundRect(map.getMapHeight() * LifeConstants.TILE_SIZE + 20, 300, 150, 50, 10, 10);
         graphics2D.draw(startColonyBtn);
         graphics2D.fill(startColonyBtn);
 
@@ -175,23 +173,13 @@ public class MainGameView implements View {
 
     private void drawColonyStats(Colony colony, Graphics2D graphics2D) {
 
-        if (colony.hasBiofilm()) {
-            biofilmSkillBtnCOL.draw(graphics2D);
-        } else {
-            biofilmSkillBtnBW.draw(graphics2D);
-        }
+        biofilmSkillBtn.draw(graphics2D);
+        competenceSkillBtn.draw(graphics2D);
+        conjugationSkillBtn.draw(graphics2D);
+        graphics2D.setFont(skillTreeFont);
+        graphics2D.setColor(Color.BLACK);
+        graphics2D.drawString("NTP: " + colony.getNtp(), 100, yOffset + 50);
 
-        if (colony.hasDnaCompetence()) {
-            competenceSkillBtnCOL.draw(graphics2D);
-        } else {
-            competenceSkillBtnBW.draw(graphics2D);
-        }
-
-        if (colony.readyForConjugation()) {
-            conjugationSkillBtnCOL.draw(graphics2D);
-        } else {
-            conjugationSkillBtnBW.draw(graphics2D);
-        }
     }
 
     /**
@@ -203,8 +191,8 @@ public class MainGameView implements View {
             for (int col = 0; col < map.getMapWidth(); col++) {
                 Tile currentTile = tilemap[row][col];
                 if (currentTile.isCurrentlySelected()) {
-                    graphics2D.drawImage(spriteFactory.getSlectionImg(), currentTile.getxPos() * TILE_SIZE,
-                            currentTile.getyPos() * TILE_SIZE, null);
+                    graphics2D.drawImage(spriteFactory.getSlectionImg(), currentTile.getxPos() * LifeConstants.TILE_SIZE,
+                            currentTile.getyPos() * LifeConstants.TILE_SIZE, null);
                 }
             }
         }
@@ -215,7 +203,7 @@ public class MainGameView implements View {
      * @param graphics2D graphics to be drawn
      */
     private void drawTimer(Graphics2D graphics2D) {
-        graphics2D.setFont(new Font("Arial", Font.PLAIN, 20));
+        graphics2D.setFont(HUDFont);
         graphics2D.setColor(Color.BLACK);
         int seconds = (int)((System.currentTimeMillis()/1000)%60);
         int minutes = (int) ((System.currentTimeMillis()/(1000*60))%60);
@@ -229,17 +217,17 @@ public class MainGameView implements View {
      */
     private void drawHUD (Graphics2D graphics2D) {
 
-        graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * TILE_SIZE + 20, 70);
+        graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * LifeConstants.TILE_SIZE + 20, 70);
         graphics2D.drawString("Nutrition Level: " + host.getNutritionLevel(), xOffset, 110);
         graphics2D.drawString("Gut activity: " + host.getGutActivity(), xOffset, 150);
         graphics2D.drawString("Mineral household: " + host.getMineralHousehold(), xOffset, 190);
-        graphics2D.drawString(infoText, xOffset, 230);
+        graphics2D.drawString(infoText, xOffset, 270);
 
     }
 
     /**
      * Returns the a tile at a desired position.
-     * @param xPos x-cccordinate
+     * @param xPos x-coordinate
      * @param yPos y-coordinate
      * @return the tile object
      */
@@ -337,28 +325,16 @@ public class MainGameView implements View {
         return null;
     }
 
-    public LifeSkillButton getBiofilmSkillBtnBW() {
-        return biofilmSkillBtnBW;
+    public LifeSkillButton getBiofilmSkillBtn() {
+        return biofilmSkillBtn;
     }
 
-    public LifeSkillButton getCompetenceSkillBtnBW() {
-        return competenceSkillBtnBW;
+    public LifeSkillButton getCompetenceSkillBtn() {
+        return competenceSkillBtn;
     }
 
-    public LifeSkillButton getConjugationSkillBtnBW() {
-        return conjugationSkillBtnBW;
-    }
-
-    public LifeSkillButton getBiofilmSkillBtnCOL() {
-        return biofilmSkillBtnCOL;
-    }
-
-    public LifeSkillButton getCompetenceSkillBtnCOL() {
-        return competenceSkillBtnCOL;
-    }
-
-    public LifeSkillButton getConjugationSkillBtnCOL() {
-        return conjugationSkillBtnCOL;
+    public LifeSkillButton getConjugationSkillBtn() {
+        return conjugationSkillBtn;
     }
 
     public RoundRectangle2D.Double getStartColonyBtn() {

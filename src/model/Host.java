@@ -27,10 +27,6 @@ public class Host {
      * Determines whether the host is dead (= end of game).
      */
     private boolean isDead;
-    /**
-     * Currency for creating new colonies, adding bew skills, etc.
-     */
-    private int lifePoints;
 
     /**
      * Initialize default attributes.
@@ -41,7 +37,6 @@ public class Host {
         mineralHousehold = 100;
         nutritionLevel = 100;
         isDead = false;
-        lifePoints = 0;
     }
 
     /**
@@ -123,11 +118,4 @@ public class Host {
         this.nutritionLevel = nutritionLevel;
     }
 
-    public int getLifePoints() {
-        return lifePoints;
-    }
-
-    public void setLifePoints(int lifePoints) {
-        this.lifePoints = lifePoints;
-    }
 }

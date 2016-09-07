@@ -1,6 +1,6 @@
 package model;
 
-import model.bacteria.Strain;
+import model.util.LifeConstants;
 import model.util.StrainName;
 
 import java.util.ArrayList;
@@ -49,6 +49,12 @@ public class Colony {
      * All plasmids the colony has.
      */
     private ArrayList plasmids;
+    /**
+     * Summarizes all kinds of nucleotides, used for gene expression and
+     * other skills the colony can have. This is the main currency for building
+     * up the colony's skill tree.
+     */
+    private int ntp;
 
     /**
      * Init basic attributes.
@@ -64,6 +70,21 @@ public class Colony {
         biofilm = false;
         dnaCompetence = false;
         conjugation = false;
+        ntp = 50;
+    }
+
+    public void incrNtp(int ntpPlus) {
+        if (ntp >= LifeConstants.MAX_NTP) {
+            ntp = LifeConstants.MAX_NTP;
+        }
+        ntp += ntpPlus;
+    }
+
+    public void decrNtp(int ntpMinus) {
+        if (ntp <= 0) {
+            ntp = 0;
+        }
+        ntp -= ntpMinus;
     }
 
     public int getxPos() {
@@ -132,6 +153,14 @@ public class Colony {
 
     public ArrayList getPlasmids() {
         return plasmids;
+    }
+
+    public int getNtp() {
+        return ntp;
+    }
+
+    public void setNtp(int ntp) {
+        this.ntp = ntp;
     }
 }
 

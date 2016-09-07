@@ -1,7 +1,9 @@
 package controller;
 
+import model.Colony;
 import model.PowerUp;
 import model.map.Map;
+import model.util.LifeConstants;
 import model.util.PowerUpType;
 import view.MainGameView;
 
@@ -64,8 +66,6 @@ public class MainGameController implements Controller{
 
     }
 
-
-
     /**
      * Updates all power-ups and removes them from the game
      * when their lifespan has expired.
@@ -76,7 +76,7 @@ public class MainGameController implements Controller{
 
         while (iterator.hasNext()) {
             PowerUp powerUp = iterator.next();
-            if (powerUp.getCounter() == PowerUp.COUNTER_MAX) {
+            if (powerUp.getCounter() == LifeConstants.POWER_UP_COUNTER_MAX) {
                 iterator.remove();
             } else {
                 powerUp.increaseCounter();

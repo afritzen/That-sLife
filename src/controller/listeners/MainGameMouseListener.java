@@ -7,7 +7,9 @@ import model.PowerUp;
 import model.map.Map;
 import model.map.Tile;
 import model.util.FieldType;
+import model.util.LifeConstants;
 import view.MainGameView;
+import view.SpriteFactory;
 
 import java.awt.*;
 import java.awt.event.MouseEvent;
@@ -31,6 +33,7 @@ public class MainGameMouseListener implements MouseListener{
      * {@link LifePanel}
      */
     private LifePanel lifePanel;
+    private SpriteFactory spriteFactory = new SpriteFactory();
 
     /**
      * Initialize components.
@@ -49,9 +52,8 @@ public class MainGameMouseListener implements MouseListener{
     @Override
     public void mouseClicked(MouseEvent e) {
 
-        int row = e.getY() / MainGameView.TILE_SIZE;
-        int col = e.getX() / MainGameView.TILE_SIZE;
-        int lifePoints = map.getHost().getLifePoints();
+        int row = e.getY() / LifeConstants.TILE_SIZE;
+        int col = e.getX() / LifeConstants.TILE_SIZE;
 
         if ((col < map.getMapHeight()) && (row < map.getMapWidth())) {
             Tile currentTile = mainGameView.getTileAt(col, row);
@@ -76,19 +78,59 @@ public class MainGameMouseListener implements MouseListener{
                 return;
             }
 
-            if (lifePoints >= 50) {
-                Colony colony = new Colony(map.getPlayerStrain().getStrainName(), mainGameView.getCurrentlySelected().getxPos(),
+            Colony colony = new Colony(map.getPlayerStrain().getStrainName(), mainGameView.getCurrentlySelected().getxPos(),
                         mainGameView.getCurrentlySelected().getyPos());
-                map.getPlayerColonies().add(colony);
-                mainGameView.setInfoText("Created a new colony!");
-            } else {
-                mainGameView.setInfoText("Not enough life points!");
+            map.getPlayerColonies().add(colony);
+            mainGameView.setInfoText("Created a new colony!");
+        }
+
+        int currX = mainGameView.getCurrentlySelected().getxPos();
+        int currY = mainGameView.getCurrentlySelected().getyPos();
+        Colony colony;
+
+        if (!mainGameView.hasColony(currX, currY)) {
+            return;
+        } else {
+            colony = mainGameView.getColonyAt(currX, currY);
+        }
+
+        if (mainGameView.getBiofilmSkillBtn().contains(e.getX(), e.getY())) {
+
+            if (colony.hasBiofilm()) {
+                return;
+            }
+
+            if (colony.getNtp() >= LifeConstants.BIOFILM_COSTS) {
+                mainGameView.getBiofilmSkillBtn().setImage(spriteFactory.getSkillBiofilmColImg());
+                colony.decrNtp(LifeConstants.BIOFILM_COSTS);
+                colony.setBiofilm(true);
             }
         }
 
-        if (mainGameView.getBiofilmSkillBtnBW().contains(e.getX(), e.getY()) ||
-                mainGameView.getBiofilmSkillBtnCOL().contains(e.getX(), e.getY())) {
-           System.out.println("ADD THIS SKILL!");
+        if (mainGameView.getCompetenceSkillBtn().contains(e.getX(), e.getY())) {
+
+            if (colony.hasDnaCompetence()) {
+                return;
+            }
+
+            if (colony.getNtp() >= LifeConstants.COMPETENCE_COSTS) {
+                mainGameView.getCompetenceSkillBtn().setImage(spriteFactory.getSkillCompetenceColImg());
+                colony.decrNtp(LifeConstants.COMPETENCE_COSTS);
+                colony.setDnaCompetence(true);
+            }
+        }
+
+        if (mainGameView.getConjugationSkillBtn().contains(e.getX(), e.getY())) {
+
+            if (colony.readyForConjugation()) {
+                return;
+            }
+
+            if (colony.getNtp() >= LifeConstants.CONJUGATION_COSTS) {
+                mainGameView.getConjugationSkillBtn().setImage(spriteFactory.getSkillConjugationColImg());
+                colony.decrNtp(LifeConstants.CONJUGATION_COSTS);
+                colony.setConjugation(true);
+            }
         }
 
         // collect power-up
