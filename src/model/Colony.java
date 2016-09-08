@@ -65,26 +65,12 @@ public class Colony {
     public Colony (StrainName strainName, int xPos, int yPos) {
         this.xPos = xPos;
         this.yPos = yPos;
-        this.status = 0;
+        this.status = LifeConstants.COLONY_LOW;
         this.strainName = strainName;
         biofilm = false;
         dnaCompetence = false;
         conjugation = false;
         ntp = 50;
-    }
-
-    public void incrNtp(int ntpPlus) {
-        if (ntp >= LifeConstants.MAX_NTP) {
-            ntp = LifeConstants.MAX_NTP;
-        }
-        ntp += ntpPlus;
-    }
-
-    public void decrNtp(int ntpMinus) {
-        if (ntp <= 0) {
-            ntp = 0;
-        }
-        ntp -= ntpMinus;
     }
 
     public int getxPos() {
@@ -105,10 +91,6 @@ public class Colony {
 
     public StrainName getStrainName() {
         return strainName;
-    }
-
-    public void setStrainName(StrainName strainName) {
-        this.strainName = strainName;
     }
 
     public int getStatus() {
@@ -160,7 +142,30 @@ public class Colony {
     }
 
     public void setNtp(int ntp) {
+        if (this.ntp >= 100) {
+            this.ntp = 100;
+        }
+        if (this.ntp <= 0) {
+            this.ntp = 0;
+        }
         this.ntp = ntp;
+    }
+
+    /**
+     * Returns a string indicating a colony's population.
+     * @return the string (low, medium, high)
+     */
+    public String getDensityByStatus() {
+        switch (status) {
+            case 0:
+                return "low";
+            case 1:
+                return "medium";
+            case 2:
+                return "high";
+            default:
+                return "no information available";
+        }
     }
 }
 

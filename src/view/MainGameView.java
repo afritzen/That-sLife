@@ -47,7 +47,7 @@ public class MainGameView implements View {
      */
     private String infoText = "";
     private Font HUDFont = new Font("Arial", Font.PLAIN, 20);
-    private Font skillTreeFont = new Font("Arial", Font.BOLD, 15);
+    private Font skillTreeFont = new Font("Arial", Font.PLAIN, 15);
     private RoundRectangle2D.Double startColonyBtn = new RoundRectangle2D.Double();
     private LifeSkillButton biofilmSkillBtn;
     private LifeSkillButton competenceSkillBtn;
@@ -173,12 +173,34 @@ public class MainGameView implements View {
 
     private void drawColonyStats(Colony colony, Graphics2D graphics2D) {
 
-        biofilmSkillBtn.draw(graphics2D);
-        competenceSkillBtn.draw(graphics2D);
-        conjugationSkillBtn.draw(graphics2D);
+        if (colony.hasBiofilm()) {
+            biofilmSkillBtn.setImage(spriteFactory.getSkillBiofilmColImg());
+            biofilmSkillBtn.draw(graphics2D);
+        } else {
+            biofilmSkillBtn.setImage(spriteFactory.getSkillBiofilmBwImg());
+            biofilmSkillBtn.draw(graphics2D);
+        }
+
+        if (colony.readyForConjugation()) {
+            conjugationSkillBtn.setImage(spriteFactory.getSkillConjugationColImg());
+            conjugationSkillBtn.draw(graphics2D);
+        } else {
+            conjugationSkillBtn.setImage(spriteFactory.getSkillConjugationBwImg());
+            conjugationSkillBtn.draw(graphics2D);
+        }
+
+        if (colony.hasDnaCompetence()) {
+            competenceSkillBtn.setImage(spriteFactory.getSkillCompetenceColImg());
+            competenceSkillBtn.draw(graphics2D);
+        } else {
+            competenceSkillBtn.setImage(spriteFactory.getSkillCompetenceBwImg());
+            competenceSkillBtn.draw(graphics2D);
+        }
+
         graphics2D.setFont(skillTreeFont);
         graphics2D.setColor(Color.BLACK);
         graphics2D.drawString("NTP: " + colony.getNtp(), 100, yOffset + 50);
+        graphics2D.drawString("Population density: " + colony.getDensityByStatus(), 100, yOffset + 70);
 
     }
 

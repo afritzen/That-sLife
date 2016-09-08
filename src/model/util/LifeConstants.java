@@ -45,6 +45,18 @@ public class LifeConstants {
      * Needed life points for conjugation-skill.
      */
     public static final int CONJUGATION_COSTS = 10;
+    /**
+     * Status for a colony with low population density.
+     */
+    public static final int COLONY_LOW = 0;
+    /**
+     * Status for a colony with medium popilation density.
+     */
+    public static final int COLONY_MEDIUM = 1;
+    /**
+     * Status for a colony with high population density.
+     */
+    public static final int COLONY_HIGH = 2;
 
     /**
      * Private constructor, should not be called since it's not

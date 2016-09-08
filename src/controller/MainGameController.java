@@ -7,7 +7,6 @@ import model.util.LifeConstants;
 import model.util.PowerUpType;
 import view.MainGameView;
 
-import java.util.Date;
 import java.util.Iterator;
 import java.util.Random;
 
@@ -63,6 +62,7 @@ public class MainGameController implements Controller{
 
         updatePowerUps();
         spawnPowerUps();
+        updateColonies();
 
     }
 
@@ -85,6 +85,31 @@ public class MainGameController implements Controller{
     }
 
     /**
+     * Updates all colonies and increases the population density in case
+     * they have enough potential to develop. If the minimal conditions are
+     * not satisfied, the colony has a certain risk of dying completely.
+     */
+    private void updateColonies() {
+
+        Iterator<Colony> iterator = map.getPlayerColonies().iterator();
+        double rnd = Math.random();
+
+        while (iterator.hasNext()) {
+            Colony colony = iterator.next();
+
+            // ntp value needs to be high enough to develop
+            if ((colony.getNtp() == 50) && (rnd < 0.00001)) {
+                if (colony.getStatus() == LifeConstants.COLONY_HIGH) {
+                    // colony has reached highest status
+                    continue;
+                } else {
+                    colony.setStatus(colony.getStatus() + 1);
+                }
+            }
+        }
+    }
+
+    /**
      * Randomly spawns a power-up on the map. The different types also have different
      * chances of appearing. Vitamins are the most common type while organic acids can
      * be very rare.
@@ -92,7 +117,6 @@ public class MainGameController implements Controller{
     private void spawnPowerUps() {
 
         double rnd = Math.random();
-        random = new Random();
         int rndX = random.nextInt((map.getMapWidth() - 2) + 1) + 2;
         int rndY = random.nextInt((map.getMapHeight() - 2) + 1) + 2;
 

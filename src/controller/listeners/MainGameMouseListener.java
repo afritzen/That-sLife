@@ -101,8 +101,7 @@ public class MainGameMouseListener implements MouseListener{
             }
 
             if (colony.getNtp() >= LifeConstants.BIOFILM_COSTS) {
-                mainGameView.getBiofilmSkillBtn().setImage(spriteFactory.getSkillBiofilmColImg());
-                colony.decrNtp(LifeConstants.BIOFILM_COSTS);
+                colony.setNtp(colony.getNtp() - LifeConstants.BIOFILM_COSTS);
                 colony.setBiofilm(true);
             }
         }
@@ -114,8 +113,7 @@ public class MainGameMouseListener implements MouseListener{
             }
 
             if (colony.getNtp() >= LifeConstants.COMPETENCE_COSTS) {
-                mainGameView.getCompetenceSkillBtn().setImage(spriteFactory.getSkillCompetenceColImg());
-                colony.decrNtp(LifeConstants.COMPETENCE_COSTS);
+                colony.setNtp(colony.getNtp() - LifeConstants.COMPETENCE_COSTS);
                 colony.setDnaCompetence(true);
             }
         }
@@ -127,8 +125,7 @@ public class MainGameMouseListener implements MouseListener{
             }
 
             if (colony.getNtp() >= LifeConstants.CONJUGATION_COSTS) {
-                mainGameView.getConjugationSkillBtn().setImage(spriteFactory.getSkillConjugationColImg());
-                colony.decrNtp(LifeConstants.CONJUGATION_COSTS);
+                colony.setNtp(colony.getNtp() - LifeConstants.CONJUGATION_COSTS);
                 colony.setConjugation(true);
             }
         }
