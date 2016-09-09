@@ -1,0 +1,120 @@
+[33mcommit 15f74ec1eeac01162727a989a674900519eff959[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Sep 8 17:21:28 2016 +0200
+
+    implemented colony growth, added population density to skill tree
+
+[33mcommit 20d9a287a453eb0c26b57d127c27e7b16334fcdb[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Wed Sep 7 16:30:41 2016 +0200
+
+    created class for contants, colonies can now be fully skilled, removed obsolete buttons
+
+[33mcommit c0f0837f62b3e6273526ed42085af35d7659b4c4[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Wed Sep 7 14:21:19 2016 +0200
+
+    added Buttons for skills, added life points as currency, made code a little more readable
+
+[33mcommit af74cc32a6324328c0e550277a1e4f8d599ec5e6[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Tue Sep 6 03:45:02 2016 +0200
+
+    colonies can now be created (no resource-check yet), bugfixes at panel-repainting
+
+[33mcommit fda1056318affdfddfe9e3bf20740ffa9b103b9e[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Tue Sep 6 01:22:40 2016 +0200
+
+    created Colony class and sprites, added sprites to modified map
+
+[33mcommit 2a3b8074c264793ca0e742739cdf25449e655be8[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Fri Sep 2 16:36:55 2016 +0200
+
+    added selection of single and multiple tiles
+
+[33mcommit 542162e5a871c99b60687c559e7a936adc47f953[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Sep 1 22:23:40 2016 +0200
+
+    finished power-up system, added host's attributes to HUD
+
+[33mcommit a9b62d3691667b7bffc42a76231b20995b08155d[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Sep 1 18:51:01 2016 +0200
+
+    power-ups are now spawned randomly with a 1/1000 chance, host can be powered up if needed
+
+[33mcommit ad9e160a0c6aeca2ee9d76bf5d8f6ec74f83f5e4[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Sep 1 16:12:07 2016 +0200
+
+    added Host with some basic attributes, added HUD, slight changes in power-ups
+
+[33mcommit 2b5069a03afd15a90b1d13b6051a353a0d3d49e5[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Fri Aug 19 20:39:06 2016 +0200
+
+    created PowerUp class, powerups appear after 11 seconds (needs improved algorithm!)
+
+[33mcommit 2bcbe50c864a16fec10f2c78d5b5c551dd573e0f[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Fri Aug 19 13:40:16 2016 +0200
+
+    created sprite for first bacteria, added sprite to map, created timer
+
+[33mcommit 361ac77d0c6f58d08ad70bde0cf62ee1b7794cb1[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Aug 18 19:58:39 2016 +0200
+
+    added Tile class, created tilemap, rough implementation of MainGameController
+
+[33mcommit 36efc49b12bfee0e387d2abfcc7e352f72fb7ef5[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Aug 18 18:13:09 2016 +0200
+
+    added resources directory, created two sprites for tiles, slight changes on defaultmap.txt
+
+[33mcommit 15d6dd2c90a647bc721d4629d6e040aa42df2937[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Tue Aug 16 20:09:00 2016 +0200
+
+    added simple view for main game map, slight changes in controller, more package-info
+
+[33mcommit 23cce2e5999d2442231e52d73ada8ab12bd436b3[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Tue Aug 16 18:07:36 2016 +0200
+
+    created Map class and first substrain, added package-infos
+
+[33mcommit 41ec6744ea0e3415d1a6bc6ab727a28bd61699bc[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Tue Aug 16 15:12:50 2016 +0200
+
+    added Strain superclass and enums for morphology
+
+[33mcommit ca6c93a8dbca711ac0de5bcb1b2fa18c377549c6[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Thu Aug 11 17:21:20 2016 +0200
+
+    changed overall structure, added main engine for switching between components, added interfaces for view and controller
+
+[33mcommit abe9447b54ab67d1d260138a4ea4d2c516c23672[m
+Merge: 2dd3dc2 686c7c4
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Wed Aug 10 23:12:46 2016 +0200
+
+    Merge branch 'master' of https://github.com/afritzen/That-sLife
+
+[33mcommit 2dd3dc2b617965fdaf811c7f15819dad6a4c5e3b[m
+Author: Anna Fritzen <afritzen@techfak.uni-bielefeld.de>
+Date:   Wed Aug 10 23:11:03 2016 +0200
+
+    started project, dummy TitleScreenView and package structure
+
+[33mcommit 686c7c4636dbd1a9302ebe2bb04184345e3ff540[m
+Author: afritzen <fritzenanna101@gmail.com>
+Date:   Wed Aug 10 23:09:26 2016 +0200
+
+    Initial commit

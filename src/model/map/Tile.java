@@ -31,7 +31,7 @@ public class Tile {
      * @param yPos {@link #yPos}
      * @param type {@link #type}
      */
-    public Tile (int xPos, int yPos, int type) {
+    public Tile (int yPos, int xPos, int type) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.type = type;
@@ -52,6 +52,46 @@ public class Tile {
                 fieldType = FieldType.NORMAL;
                 break;
            }
+    }
+
+    /**
+     * Computes the distance from the tile to the player's
+     * main strain.
+     * @param playerXpos x-coordinate of the player
+     * @param playerYpos y-coordinate of the player
+     * @return distance between player and tile
+     */
+    public int getDistanceToPlayer(int playerYpos, int playerXpos) {
+
+        int dist;
+
+        if ((playerXpos != xPos) && (playerYpos != yPos)) {
+            // field not reachable
+            return Integer.MAX_VALUE;
+        }
+
+        if (playerXpos != xPos) {
+            // y-distance has to be computed
+            dist = xPos - playerXpos;
+            if (dist < 0) {
+                return dist * (-1);
+            } else {
+                return dist;
+            }
+        }
+
+        if (playerYpos != yPos) {
+            // x-distance has to be computed
+            dist = yPos - playerYpos;
+            if (dist < 0) {
+                return dist * (-1);
+            } else {
+                return dist;
+            }
+        }
+
+        // just to be sure ...
+        return Integer.MAX_VALUE;
     }
 
     public int getType() {

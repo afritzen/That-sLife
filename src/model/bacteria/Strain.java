@@ -1,6 +1,8 @@
 package model.bacteria;
 
+import model.map.Tile;
 import model.util.Morphology;
+import model.util.Movement;
 import model.util.StrainName;
 
 /**
@@ -58,19 +60,64 @@ public class Strain {
      * environmental circumstances.
      */
     private boolean spores;
+    /**
+     * Indicates how well the strain is able to analyze other
+     * strains or resources to obtain information.
+     */
+    private int analyzingLevel;
+    /**
+     * @see model.Colony#ntp
+     * Furthermore used for moving on the map.
+     */
+    private int ntp;
+    /**
+     * Determines whether the strain has been selected (e.g. for moving).
+     */
+    private boolean isSelected;
 
     /**
      * Sets basic attributes according to morphology and name.
      * @param strainName {@link #strainName}
      * @param morphology {@link #morphology}
      */
-    public Strain(StrainName strainName, Morphology morphology, int xPos, int yPos) {
+    public Strain(StrainName strainName, Morphology morphology, int yPos, int xPos) {
         this.strainName = strainName;
         this.morphology = morphology;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.analyzingLevel = 1;
+        this.ntp = 50;
+        this.isSelected = false;
+        //TODO: compute attributes according to given values (different for different strains)
+    }
 
-        //TODO: compute attributes according to given values
+    /**
+     * Moves the main strain around.
+     * @param movement direction of movement
+     */
+    public void move(Movement movement) {
+        switch (movement) {
+            case UP:
+                yPos -= 1;
+                break;
+            case DOWN:
+                yPos += 1;
+                break;
+            case LEFT:
+                xPos -= 1;
+                break;
+            case RIGHT:
+                xPos += 1;
+        }
+    }
+
+    /**
+     * Moves the strain to a distant target.
+     * @param target the target tile
+     */
+    public void moveBigDistance(Tile target) {
+        xPos = target.getxPos();
+        yPos = target.getyPos();
     }
 
     public StrainName getStrainName() {
@@ -127,5 +174,29 @@ public class Strain {
 
     public boolean hasSpores() {
         return spores;
+    }
+
+    public int getAnalyzingLevel() {
+        return analyzingLevel;
+    }
+
+    public void setAnalyzingLevel(int analyzingLevel) {
+        this.analyzingLevel = analyzingLevel;
+    }
+
+    public int getNtp() {
+        return ntp;
+    }
+
+    public void setNtp(int ntp) {
+        this.ntp = ntp;
+    }
+
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
     }
 }

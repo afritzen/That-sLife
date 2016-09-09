@@ -37,7 +37,7 @@ public class PowerUp {
      * @param xPos {@link #xPos}
      * @param yPos {@link #yPos}
      */
-    public PowerUp(PowerUpType type, int xPos, int yPos) {
+    public PowerUp(PowerUpType type, int yPos, int xPos) {
 
         this.xPos = xPos;
         this.yPos = yPos;

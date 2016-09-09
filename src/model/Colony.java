@@ -62,7 +62,7 @@ public class Colony {
      * @param xPos {@link #xPos}
      * @param yPos {@link #yPos}
      */
-    public Colony (StrainName strainName, int xPos, int yPos) {
+    public Colony (StrainName strainName, int yPos, int xPos) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.status = LifeConstants.COLONY_LOW;

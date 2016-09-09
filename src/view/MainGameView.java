@@ -11,6 +11,8 @@ import model.util.LifeConstants;
 
 import java.awt.*;
 import java.awt.geom.RoundRectangle2D;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 /**
  * Renders the game's map and everything inside it. Also provides
@@ -52,6 +54,7 @@ public class MainGameView implements View {
     private LifeSkillButton biofilmSkillBtn;
     private LifeSkillButton competenceSkillBtn;
     private LifeSkillButton conjugationSkillBtn;
+    private ArrayList<Tile> toHighlight;
 
     /**
      * Initialize map.
@@ -60,13 +63,14 @@ public class MainGameView implements View {
     public MainGameView (Map map) {
         this.map = map;
         this.host = map.getHost();
-        this.xOffset = map.getMapHeight() * LifeConstants.TILE_SIZE + 20;
-        this. yOffset = map.getMapWidth() * LifeConstants.TILE_SIZE + 20;
+        this.xOffset = map.getMapWidth() * LifeConstants.TILE_SIZE + 20;
+        this. yOffset = map.getMapHeight() * LifeConstants.TILE_SIZE + 20;
 
         // initialize buttons
         biofilmSkillBtn = new LifeSkillButton(spriteFactory.getSkillBiofilmBwImg(), 100, yOffset);
         competenceSkillBtn = new LifeSkillButton(spriteFactory.getSkillCompetenceBwImg(), 140, yOffset);
         conjugationSkillBtn = new LifeSkillButton(spriteFactory.getSkillConjugationBwImg(), 180, yOffset);
+        toHighlight = new ArrayList<>();
 
         initTilemap();
     }
@@ -83,8 +87,8 @@ public class MainGameView implements View {
             for (int col = 0; col < map.getMapWidth(); col++) {
 
                 Tile currentTile = tilemap[row][col];
-                int currentTileX = currentTile.getxPos() * LifeConstants.TILE_SIZE;
                 int currentTileY = currentTile.getyPos() * LifeConstants.TILE_SIZE;
+                int currentTileX = currentTile.getxPos() * LifeConstants.TILE_SIZE;
 
                 switch (currentTile.getFieldType()) {
                     case FRAME:
@@ -139,12 +143,13 @@ public class MainGameView implements View {
         }
 
         drawSelection(graphics2D);
+        drawReachableFields(graphics2D);
         drawTimer(graphics2D);
         drawHUD(graphics2D);
 
         // button just for testing, to be removed later!
         graphics2D.setColor(Color.PINK);
-        startColonyBtn.setRoundRect(map.getMapHeight() * LifeConstants.TILE_SIZE + 20, 300, 150, 50, 10, 10);
+        startColonyBtn.setRoundRect(xOffset, 300, 150, 50, 10, 10);
         graphics2D.draw(startColonyBtn);
         graphics2D.fill(startColonyBtn);
 
@@ -220,6 +225,31 @@ public class MainGameView implements View {
         }
     }
 
+    public void addReachableFields(ArrayList<Tile> reachableFields) {
+
+        for (int row = 0; row < map.getMapHeight(); row++) {
+            for (int col = 0; col < map.getMapWidth(); col++) {
+                if (reachableFields.contains(tilemap[row][col])) {
+                    toHighlight.add(tilemap[row][col]);
+                }
+            }
+        }
+    }
+
+    private void drawReachableFields(Graphics2D graphics2D) {
+        if (toHighlight.isEmpty()) {
+            return;
+        }
+
+        Iterator<Tile> iterator = toHighlight.iterator();
+        while (iterator.hasNext()) {
+            Tile tile = iterator.next();
+            graphics2D.drawImage(spriteFactory.getSlectionImg(), tile.getxPos() * LifeConstants.TILE_SIZE,
+                    tile.getyPos() * LifeConstants.TILE_SIZE, null);
+
+        }
+    }
+
     /**
      * Creates a timer to show up at the upper left corner of the screen.
      * @param graphics2D graphics to be drawn
@@ -239,7 +269,7 @@ public class MainGameView implements View {
      */
     private void drawHUD (Graphics2D graphics2D) {
 
-        graphics2D.drawString("Health: " + host.getHealth(), map.getMapHeight() * LifeConstants.TILE_SIZE + 20, 70);
+        graphics2D.drawString("Health: " + host.getHealth(), xOffset, 70);
         graphics2D.drawString("Nutrition Level: " + host.getNutritionLevel(), xOffset, 110);
         graphics2D.drawString("Gut activity: " + host.getGutActivity(), xOffset, 150);
         graphics2D.drawString("Mineral household: " + host.getMineralHousehold(), xOffset, 190);
@@ -253,8 +283,8 @@ public class MainGameView implements View {
      * @param yPos y-coordinate
      * @return the tile object
      */
-    public Tile getTileAt (int xPos, int yPos) {
-        return tilemap[xPos][yPos];
+    public Tile getTileAt (int yPos, int xPos) {
+        return tilemap[yPos][xPos];
     }
 
     /**
@@ -263,7 +293,7 @@ public class MainGameView implements View {
      * @param yPos y-coordinate on the map
      * @return the power-up
      */
-    public PowerUp getPowerUpAt(int xPos, int yPos) {
+    public PowerUp getPowerUpAt(int yPos, int xPos) {
         for (PowerUp powerUp : map.getPowerUps()) {
             if (powerUp.getxPos() == xPos && powerUp.getyPos() == yPos) {
                 return powerUp;
@@ -278,7 +308,7 @@ public class MainGameView implements View {
      * @param yPos y-coordinate on the map
      * @return the colony
      */
-    public Colony getColonyAt (int xPos, int yPos) {
+    public Colony getColonyAt (int yPos, int xPos) {
         for (Colony colony : map.getPlayerColonies()) {
             if (colony.getxPos() == xPos && colony.getyPos() == yPos) {
                 return colony;
@@ -293,7 +323,7 @@ public class MainGameView implements View {
      * @param yPos y-coordinate of the field
      * @return field has power-up?
      */
-    public boolean hasPowerUp(int xPos, int yPos) {
+    public boolean hasPowerUp(int yPos, int xPos) {
         for (PowerUp powerUp : map.getPowerUps()) {
             if ((powerUp.getxPos() == xPos) && (powerUp.getyPos() == yPos)) {
                 return true;
@@ -308,13 +338,24 @@ public class MainGameView implements View {
      * @param yPos y-coordinate of the field
      * @return field has colony?
      */
-    public boolean hasColony (int xPos, int yPos) {
+    public boolean hasColony (int yPos, int xPos) {
         for (Colony colony : map.getPlayerColonies()) {
             if (colony.getxPos() == xPos && colony.getyPos() == yPos) {
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Determines whether the specified field has the player's main
+     * strain.
+     * @param xPos x-ccordinate of specified field
+     * @param yPos y-coordinate of specified field
+     * @return field has player's main strain?
+     */
+    public boolean hasPlayerStrain(int yPos, int xPos) {
+        return (map.getPlayerStrain().getxPos() == xPos) && (map.getPlayerStrain().getyPos() == yPos);
     }
 
     /**
@@ -377,5 +418,9 @@ public class MainGameView implements View {
 
     public Map getMap() {
         return map;
+    }
+
+    public ArrayList<Tile> getToHighlight() {
+        return toHighlight;
     }
 }

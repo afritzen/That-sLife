@@ -80,7 +80,7 @@ public class Map {
         host = new Host();
 
         Peptostreptococcus peptostreptococcus = new Peptostreptococcus(
-                StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 5, 5
+                StrainName.PEPTOSTREPTOCOCCUS, Morphology.COCCUS, 4, 5
         );
 
         playerStrain = peptostreptococcus;
